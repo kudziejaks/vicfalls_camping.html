@@ -1,519 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VicFalls Summer Holiday Camping</title>
-
-<!-- Elegant Victoria Falls Theme (blue + white) with gentle background movement -->
 <style>
-    :root{
-        --accent:#1e90ff;
-        --soft:#eaf6ff;
-        --card-bg: rgba(255,255,255,0.08);
-        --glass: rgba(255,255,255,0.06);
-        --glass-2: rgba(255,255,255,0.10);
-    }
-    html,body{height:100%; margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif; color:#fff;}
-    body{
-        background: linear-gradient(180deg, rgba(6,39,77,0.65), rgba(2,16,30,0.85));
-        overflow-y:auto;
-    }
-
-    /* background image layer (parallax-like gentle slide) */
-    .bg {
-        position:fixed;
-        inset:0;
-        background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/0f/Victoria_Falls_%28January_2022%29.jpg');
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: url('https://images.unsplash.com/photo-1585616819024-9f3cbdeb18f1') no-repeat center center fixed;
         background-size: cover;
-        background-position: center;
-        filter: blur(2px) brightness(0.55) saturate(1.05);
-        transform: translateZ(0);
-        animation: bgMove 20s ease-in-out infinite alternate;
-        z-index: -2;
+        color: white;
+        text-align: center;
     }
-    @keyframes bgMove {
-        from{ transform: scale(1) translateY(-10px); }
-        to{ transform: scale(1.02) translateY(10px); }
-    }
-
     .overlay {
-        position:fixed; inset:0; background: linear-gradient(180deg, rgba(2,16,30,0.45), rgba(2,16,30,0.6)); z-index:-1;
+        background: rgba(0,0,0,0.55);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 60px;
     }
-
-    .page {
-        max-width: 980px;
-        margin: 36px auto;
-        padding: 28px;
-    }
-
-    header{
-        display:flex;
-        align-items:center;
-        gap:16px;
-        margin-bottom: 18px;
-        animation: fadeIn 900ms ease;
-    }
-    header h1{
-        margin:0; font-size:22px; letter-spacing:0.6px;
-    }
-    .logo {
-        width:64px; height:64px; border-radius:12px;
-        background: linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
-        display:flex; align-items:center; justify-content:center;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.6);
-        border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .grid {
-        display:grid;
-        grid-template-columns: 360px 1fr;
-        gap:20px;
-    }
-
-    /* cards */
     .card {
-        background: var(--card-bg);
-        padding:18px;
-        border-radius:12px;
-        border: 1px solid var(--glass-2);
-        box-shadow: 0 8px 30px rgba(1,12,30,0.45);
-        backdrop-filter: blur(6px) saturate(1.1);
-        animation: fadeIn 900ms ease;
+        background: rgba(255,255,255,0.15);
+        border-radius: 18px;
+        padding: 20px;
+        width: 90%;
+        max-width: 420px;
+        margin: auto;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        animation: fadeIn 1.2s ease-in-out;
     }
-    @keyframes fadeIn { from{opacity:0; transform: translateY(10px)} to{opacity:1; transform:none} }
-
-    label{ display:block; font-size:13px; color: #dbeeff; margin-top:8px; margin-bottom:6px; }
-    input[type="text"], input[type="password"], input[type="number"], select, textarea {
-        width:100%; padding:10px 12px; border-radius:8px; border: none; outline:none;
-        background: rgba(255,255,255,0.06); color:#fff; font-size:14px;
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-
-    button.primary {
-        width:100%; padding:12px; border-radius:10px; border:none; cursor:pointer;
-        background: linear-gradient(90deg, var(--accent), #3ec0ff);
-        color: #052238; font-weight:700; margin-top:12px;
-        box-shadow: 0 6px 18px rgba(30,144,255,0.18);
+    input, select {
+        width: 90%;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 10px;
     }
-
-    button.ghost {
-        background: transparent; border:1px solid rgba(255,255,255,0.12);
-        color: #dbeeff; padding:10px; border-radius:8px; cursor:pointer; width:100%;
+    button {
+        width: 95%;
+        padding: 12px;
+        background: royalblue;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
     }
-
-    .muted { font-size:13px; color:#cfeaff; opacity:0.9; margin-top:6px; }
-
-    ul.activity-list { list-style:none; padding:0; margin:0; }
-    ul.activity-list li { padding:10px 8px; border-radius:8px; margin-bottom:8px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-        border: 1px solid rgba(255,255,255,0.03);
+    button:hover {
+        background: dodgerblue;
     }
-    .price { float:right; opacity:0.95; font-weight:700; color:#eaf8ff; }
-
-    .small { font-size:13px; }
-
-    .center { text-align:center; }
-
-    /* admin area */
-    .admin-area pre { background: rgba(0,0,0,0.18); padding:12px; border-radius:8px; overflow:auto; max-height:280px; }
-
-    /* responsive */
-    @media (max-width:900px){
-        .grid { grid-template-columns: 1fr; }
-        .page { padding:10px; }
-    }
+    .hidden { display: none; }
 </style>
 </head>
 <body>
-<div class="bg"></div>
-<div class="overlay"></div>
+<div class="overlay">
+    <div id="loginCard" class="card">
+        <h2>Welcome to the VicFalls Summer Holiday Camping</h2>
+        <h3>Login</h3>
+        <input type="text" id="fullname" placeholder="Enter Full Name" />
+        <input type="password" id="password" placeholder="Enter Password" />
+        <button onclick="login()">Login</button>
+        <p id="loginMsg" style="color: yellow;"></p>
+    </div>
 
-<div class="page">
-    <header>
-        <div class="logo">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 12c0 5 4 9 9 9s9-4 9-9" stroke="white" stroke-opacity="0.9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 3v9l3 3" stroke="white" stroke-opacity="0.95" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        <div>
-            <h1>VicFalls Summer Holiday Camping — Welcome</h1>
-            <div class="muted">Elegant Victoria Falls theme • Sign in to participate, donate, or view activities</div>
-        </div>
-    </header>
+    <div id="participantCard" class="card hidden">
+        <h2>Participant Dashboard</h2>
+        <h3>Activities</h3>
+        <ul style="text-align:left;">
+            <li>White water rafting</li>
+            <li>Helicopter tour</li>
+            <li>Chobe National Park Tour</li>
+            <li>Zambezi Sunset Cruise</li>
+            <li>Boma Dinner & Drum Show</li>
+        </ul>
+        <h3>RSVP</h3>
+        <select id="rsvpChoice">
+            <option value="Accept">Accept Invite</option>
+            <option value="Cancel">Cancel</option>
+        </select>
+        <button onclick="saveRSVP()">Submit Response</button>
+        <p id="participantMsg"></p>
 
-    <div class="grid">
-        <!-- LEFT: Login / Controls -->
-        <div class="card" id="leftCard">
-            <!-- LOGIN BOX -->
-            <div id="loginPanel">
-                <h3>Login</h3>
-                <label>Full name</label>
-                <input id="fullname" type="text" placeholder="e.g. Godfrey Jakata" />
-                <label>Password</label>
-                <input id="password" type="password" placeholder="Enter password (firstborn's name)" />
-                <button class="primary" onclick="login()">Login</button>
-                <button class="ghost" onclick="openGateCrusher()">Login as GateCrusher</button>
-                <div class="muted">Name must start with a capital first name AND capital surname (e.g. Jane Mukucha).</div>
-                <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:12px 0" />
-                <div class="small muted">If you are not in the guest list you will be treated as <strong>GateCrusher</strong> and will not be able to donate.</div>
-            </div>
+        <h3>Donor Section</h3>
+        <p>Activities & Prices</p>
+        <ul style="text-align:left;">
+            <li>White water raft – $50</li>
+            <li>Helicopter tour – $150</li>
+            <li>Chobe full day – $190</li>
+            <li>Sunset Cruise – $49</li>
+            <li>Boma Dinner – $85</li>
+        </ul>
+        <h4>Donate using EcoCash</h4>
+        <p>EcoCash Number: <strong>077-252-727</strong></p>
+        <input id="donationInfo" placeholder="Enter amount or message" />
+        <button onclick="submitDonation()">Submit Donation</button>
+        <p id="donationMsg"></p>
 
-            <!-- PARTICIPANT / DONOR CHOICES -->
-            <div id="userPanel" style="display:none;">
-                <h3 id="welcomeName">Welcome</h3>
-                <div class="muted" id="roleText">Role:</div>
+        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
+    </div>
 
-                <label>Choose action</label>
-                <select id="actionSelect">
-                    <option value="participate">Participate (RSVP + activities)</option>
-                    <option value="donate">Be a Donor (donate to activities)</option>
-                </select>
-                <button class="primary" onclick="enterAction()">Proceed</button>
+    <div id="gateCard" class="card hidden">
+        <h2>GateCrasher Access</h2>
+        <p>You are not on the participants list.</p>
+        <h3>Activities</h3>
+        <ul style="text-align:left;">
+            <li>White water rafting</li>
+            <li>Helicopter tour</li>
+            <li>Chobe National Park Tour</li>
+            <li>Zambezi Sunset Cruise</li>
+            <li>Boma Dinner & Drum Show</li>
+        </ul>
+        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
+    </div>
 
-                <hr style="border:none; height:1px; background:rgba(255,255,255,0.03); margin:12px 0" />
-
-                <button class="ghost" onclick="logout()">Logout</button>
-
-                <div style="margin-top:12px;">
-                    <button class="ghost" onclick="showAdminLogin()">Admin Dashboard</button>
-                </div>
-            </div>
-
-            <!-- ADMIN LOGIN -->
-            <div id="adminLogin" style="display:none; margin-top:12px;">
-                <h3>Admin - Enter Password</h3>
-                <input id="adminPass" type="password" placeholder="Admin password" />
-                <button class="primary" onclick="adminLogin()">View Dashboard</button>
-                <div class="muted">Only admin can view RSVPs & donation records. Guest list is hidden to normal users.</div>
-            </div>
-        </div>
-
-        <!-- RIGHT: Activities, RSVP, Donation, Admin Output -->
-        <div class="card">
-            <!-- Activities shown to everyone (price shown or hidden dynamically) -->
-            <div id="activitiesPanel">
-                <h3>Activities</h3>
-                <ul class="activity-list" id="activitiesList">
-                    <!-- rendered by JS -->
-                </ul>
-                <div class="muted small">Participants and donors will see prices where applicable. GateCrashers and general visitors see activity names only (no prices).</div>
-            </div>
-
-            <!-- RSVP / Participation -->
-            <div id="participationPanel" style="display:none; margin-top:14px;">
-                <h3>RSVP</h3>
-                <label>RSVP Response</label>
-                <select id="rsvpSelect">
-                    <option value="Accepted">Accept Invite</option>
-                    <option value="Cancelled">Cancel Acceptance</option>
-                </select>
-                <button class="primary" onclick="submitRSVP()">Submit RSVP</button>
-                <div class="muted small" style="margin-top:8px;">RSVPs are stored locally in this session and visible only to the admin.</div>
-            </div>
-
-            <!-- Donation Panel -->
-            <div id="donationPanel" style="display:none; margin-top:14px;">
-                <h3>Donate to an Activity</h3>
-                <label>Select activity to support</label>
-                <select id="donationActivity"></select>
-
-                <label>Amount (USD)</label>
-                <input id="donationAmount" type="number" step="1" min="1" placeholder="Enter amount in USD" />
-
-                <label>EcoCash Number</label>
-                <input id="ecocashNumber" type="text" value="077-252-727" />
-
-                <label>Donor Name (will be recorded)</label>
-                <input id="donorName" type="text" placeholder="e.g. Godfrey Jakata" />
-
-                <label>Optional message</label>
-                <textarea id="donorMessage" rows="2" placeholder="Message to event organisers (optional)"></textarea>
-
-                <button class="primary" onclick="submitDonation()">Send Donation Info</button>
-                <div class="muted small" style="margin-top:8px;">Donations are recorded here as payment instructions (EcoCash number shown). Actual payment must be sent through EcoCash manually using the number above.</div>
-            </div>
-
-            <!-- Admin Dashboard -->
-            <div id="adminPanel" class="admin-area" style="display:none; margin-top:14px;">
-                <h3>Admin Dashboard</h3>
-                <div style="display:flex; gap:12px; flex-wrap:wrap;">
-                    <div style="flex:1; min-width:240px;">
-                        <strong>RSVPs</strong>
-                        <pre id="rsvpOutput">No RSVPs yet.</pre>
-                    </div>
-                    <div style="flex:1; min-width:240px;">
-                        <strong>Donations (Records)</strong>
-                        <pre id="donationOutput">No donations yet.</pre>
-                    </div>
-                </div>
-
-                <div style="margin-top:12px;">
-                    <button class="ghost" onclick="hideAdmin()">Close Admin View</button>
-                </div>
-            </div>
-        </div>
+    <div id="adminCard" class="card hidden">
+        <h2>Admin Dashboard</h2>
+        <p><strong>RSVP Responses:</strong></p>
+        <p id="responseList"></p>
+        <button style="background:crimson;" onclick="logout()">Logout</button>
     </div>
 </div>
 
 <script>
-/* -----------------------------
-   Admin password (change here)
-   ----------------------------- */
-const ADMIN_PASSWORD = "Admin123";
-
-/* -----------------------------
-   Guest list + firstborns (passwords)
-   - Guest list is kept in JS and never printed for normal users.
-   ----------------------------- */
-const guests = {
-    "Godfrey Jakata": { password: "Chikomborero", spouse: "Edline", children:["Chikomborero","Ashley","Stacey","JEWEL"] },
-    "Fine Jakata":    { password: "Tawana", spouse: "Wadzi", children:["Tawana","Tanaya","Tadiwa"] },
-    "Steven Jakata":  { password: "Thoja", spouse: "Edline", children:["Thoja","Taoga","Tasha","Pride","Tyron"] },
-    "Kudakwashe Jakata": { password: "Kudzaishe", spouse: "Thembiso", children:["Kudzaishe","Maka","Firm","Star"] },
-    "Jane Mukucha":   { password: "Sasha", spouse: "Philip Mukucha", children:["Sasha","Asher","Ashley","Sky"] },
-    "Luckson Jakata": { password: "Shumirai", spouse: "Eveline", children:["Shumirai","Minana","Troy"] },
-    "Philip Mukucha": { password: "Sasha", spouse: "Jane Mukucha", children:["Sasha","Asher","Ashley","Sky"] }
+const participants = {
+    "Godfrey Jakata": "Chikomborero",
+    "Fine Jakata": "Tawana",
+    "Steven Jakata": "Thoja",
+    "Kudakwashe Jakata": "Kudzaishe",
+    "Jane Mukucha": "Sasha",
+    "Luckson Jakata": "Shumirai",
+    "Philip Mukucha": "Sasha"
 };
 
-/* -----------------------------
-   Activities (names + official prices)
-   ----------------------------- */
-const activities = [
-    { id: "raft", title: "White water raft down the Zambezi River", price: 50 },
-    { id: "helo",  title: "Victoria Falls helicopter tour", price: 150 },
-    { id: "chobe", title: "Full day tour to Chobe National Park & Botswana", price: 190 },
-    { id: "cruise",title: "Zambezi sunset Cruise — wildlife, drinks & breathtaking views", price: 49 },
-    { id: "boma",  title: "Boma Dinner and Drum Show", price: 85 }
-];
+let rsvpData = {};
 
-/* Storage (session-only) */
-let session = {
-    currentUser: null,     // exact name string if known, otherwise "GateCrusher"
-    role: null,            // 'participant' | 'gatecrusher' | 'donor' (donor chosen by participant)
-    rsvps: {},             // name => choice
-    donations: []          // {name, activityId, amount, ecocash, message, timestamp}
-};
-
-/* Render activities list based on role */
-function renderActivities() {
-    const list = document.getElementById("activitiesList");
-    list.innerHTML = "";
-    activities.forEach(act => {
-        const li = document.createElement("li");
-        li.textContent = act.title;
-        // If role is participant or donor (i.e., logged-in known guest) show price when appropriate.
-        if (session.role === "participant" || session.role === "donor" || session.role === "participant-donor") {
-            const span = document.createElement("span");
-            span.className = "price";
-            span.textContent = "$" + act.price;
-            li.appendChild(span);
-        }
-        list.appendChild(li);
-    });
-
-    // Fill donation activity select with options (always show names)
-    const donationSelect = document.getElementById("donationActivity");
-    donationSelect.innerHTML = "";
-    activities.forEach(a => {
-        const opt = document.createElement("option");
-        opt.value = a.id;
-        opt.textContent = a.title + " — $" + a.price;
-        donationSelect.appendChild(opt);
-    });
+function formatName(name){
+    return name.replace(/\b\w/g, c => c.toUpperCase());
 }
 
-/* Initialize view */
-renderActivities();
+function login(){
+    let name = formatName(document.getElementById("fullname").value.trim());
+    let pass = document.getElementById("password").value.trim();
 
-/* Helper: validate name format */
-function isValidFullName(name) {
-    if (!name) return false;
-    // allow multi-part first names but require at least two words, each starting with capital letter
-    const parts = name.trim().split(/\s+/);
-    if (parts.length < 2) return false;
-    return parts.every(p => /^[A-Z][a-zA-Z'-]*$/.test(p));
-}
-
-/* Login flow */
-function login() {
-    const name = document.getElementById("fullname").value.trim();
-    const pass = document.getElementById("password").value.trim();
-
-    if (!isValidFullName(name)) {
-        alert("Please enter your full name with capitalized First name and Surname (e.g. Godfrey Jakata).");
+    if(!name){
+        document.getElementById("loginMsg").innerText = "Please enter full name";
         return;
     }
 
-    if (guests[name]) {
-        // known guest
-        if (pass !== guests[name].password) {
-            alert("Wrong password for that guest. Password is the name of your first-born (case-sensitive).");
-            return;
-        }
-        session.currentUser = name;
-        session.role = "participant";
-        showUserPanel();
-    } else {
-        // Not in guest list -> suggest login as GateCrusher (but allow treat as gatecrusher)
-        const tryGC = confirm("Name not found in guest list. Press OK to continue as GateCrusher (limited access), or Cancel to re-enter your name.");
-        if (tryGC) {
-            session.currentUser = "GateCrusher";
-            session.role = "gatecrusher";
-            showUserPanel();
-        }
-    }
-}
-
-/* Quick GateCrusher login */
-function openGateCrusher(){
-    session.currentUser = "GateCrusher";
-    session.role = "gatecrusher";
-    showUserPanel();
-}
-
-/* show user panel after successful login */
-function showUserPanel(){
-    document.getElementById("loginPanel").style.display = "none";
-    document.getElementById("userPanel").style.display = "block";
-    document.getElementById("welcomeName").innerText = session.currentUser === "GateCrusher" ? "Welcome GateCrusher" : `Welcome, ${session.currentUser}`;
-    document.getElementById("roleText").innerText = "Role: " + (session.role === "gatecrusher" ? "GateCrusher (limited access)" : "Participant");
-    // render activities depending on role
-    renderActivities();
-
-    // GateCrusher cannot donate -> hide donation option from action select
-    const actionSelect = document.getElementById("actionSelect");
-    actionSelect.innerHTML = "";
-    if (session.role === "gatecrusher"){
-        actionSelect.innerHTML += `<option value="view">View Activities</option>`;
-        actionSelect.disabled = true;
-    } else {
-        actionSelect.innerHTML += `<option value="participate">Participate (RSVP + activities)</option>`;
-        actionSelect.innerHTML += `<option value="donate">Be a Donor (donate to activities)</option>`;
-        actionSelect.disabled = false;
-    }
-}
-
-/* choose action after login */
-function enterAction() {
-    const choice = document.getElementById("actionSelect").value;
-    document.getElementById("participationPanel").style.display = "none";
-    document.getElementById("donationPanel").style.display = "none";
-
-    if (choice === "participate") {
-        session.role = "participant";
-        document.getElementById("participationPanel").style.display = "block";
-    } else if (choice === "donate") {
-        session.role = "donor";
-        // ensure donorName is prefilled with logged user (if not gatecrusher)
-        document.getElementById("donorName").value = session.currentUser === "GateCrusher" ? "" : session.currentUser;
-        document.getElementById("donationPanel").style.display = "block";
-    } else {
-        // view only
-        session.role = "gatecrusher";
-    }
-    renderActivities();
-}
-
-/* submit RSVP */
-function submitRSVP() {
-    const val = document.getElementById("rsvpSelect").value;
-    const who = session.currentUser || "Unknown";
-    if (who === "GateCrusher") {
-        alert("GateCrushers cannot submit RSVPs.");
-        return;
-    }
-    session.rsvps[who] = { response: val, at: new Date().toISOString() };
-    alert("RSVP saved. Thank you!");
-}
-
-/* submit donation info */
-function submitDonation() {
-    const who = document.getElementById("donorName").value.trim();
-    if (!who || !isValidFullName(who)) {
-        alert("Please enter a valid donor name (First Surname).");
-        return;
-    }
-    const activityId = document.getElementById("donationActivity").value;
-    const amount = Number(document.getElementById("donationAmount").value);
-    const ecocash = document.getElementById("ecocashNumber").value.trim() || "077-252-727";
-    const message = document.getElementById("donorMessage").value.trim();
-
-    if (!amount || amount <= 0) {
-        alert("Enter a valid donation amount (USD).");
+    if(name === "Admin" && pass === "AdminPass2025"){ // Admin password
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("adminCard").classList.remove("hidden");
+        loadResponses();
         return;
     }
 
-    // Record donation (this is a local/session record — actual money transfer must happen via EcoCash using the number shown)
-    session.donations.push({
-        name: who,
-        activityId,
-        amount,
-        ecocash,
-        message,
-        at: new Date().toISOString()
-    });
-
-    alert("Donation info recorded. Please send payment manually via EcoCash to " + ecocash + ". Thank you!");
-}
-
-/* Admin login & view */
-function showAdminLogin(){ document.getElementById("adminLogin").style.display = "block"; }
-function adminLogin(){
-    const p = document.getElementById("adminPass").value;
-    if (p !== ADMIN_PASSWORD) { alert("Wrong admin password."); return; }
-    // show admin panel and display records
-    document.getElementById("adminPanel").style.display = "block";
-    const rOut = document.getElementById("rsvpOutput");
-    const dOut = document.getElementById("donationOutput");
-
-    // rsvps (if none)
-    if (Object.keys(session.rsvps).length === 0) {
-        rOut.textContent = "No RSVPs yet.";
-    } else {
-        let lines = [];
-        for (const person in session.rsvps) {
-            const rec = session.rsvps[person];
-            lines.push(`${person} — ${rec.response}  (at ${rec.at})`);
+    if(participants[name]){
+        if(pass === participants[name]){
+            document.getElementById("loginCard").classList.add("hidden");
+            document.getElementById("participantCard").classList.remove("hidden");
+        } else {
+            document.getElementById("loginMsg").innerText = "Incorrect password";
         }
-        rOut.textContent = lines.join("\n");
-    }
-
-    if (session.donations.length === 0) {
-        dOut.textContent = "No donations yet.";
     } else {
-        let lines = session.donations.map(d => {
-            const act = activities.find(a=>a.id===d.activityId);
-            return `${d.name} → ${act ? act.title : d.activityId} — $${d.amount} (EcoCash: ${d.ecocash})\n  note: ${d.message || "(no message)"}\n  at: ${d.at}`;
-        });
-        dOut.textContent = lines.join("\n\n");
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("gateCard").classList.remove("hidden");
     }
 }
 
-/* hide admin */
-function hideAdmin(){
-    document.getElementById("adminPanel").style.display = "none";
-    document.getElementById("adminLogin").style.display = "none";
-    document.getElementById("adminPass").value = "";
+function saveRSVP(){
+    let name = formatName(document.getElementById("fullname").value.trim());
+    let choice = document.getElementById("rsvpChoice").value;
+    rsvpData[name] = choice;
+    document.getElementById("participantMsg").innerText = "RSVP Saved!";
 }
 
-/* logout */
-function logout(){
-    session.currentUser = null;
-    session.role = null;
-    document.getElementById("loginPanel").style.display = "block";
-    document.getElementById("userPanel").style.display = "none";
-    document.getElementById("participationPanel").style.display = "none";
-    document.getElementById("donationPanel").style.display = "none";
-    document.getElementById("adminPanel").style.display = "none";
-    document.getElementById("adminLogin").style.display = "none";
-    document.getElementById("fullname").value = "";
-    document.getElementById("password").value = "";
-    renderActivities();
+function loadResponses(){
+    let output = "";
+    for(let name in rsvpData){ output += `${name}: ${rsvpData[name]}<br>`; }
+    document.getElementById("responseList").innerHTML = output;
 }
 
-/* show initial state */
-renderActivities();
+function submitDonation(){
+    let msg = document.getElementById("donationInfo").value.trim();
+    if(!msg){
+        document.getElementById("donationMsg").innerText = "Enter donation info";
+        return;
+    }
+    document.getElementById("donationMsg").innerText = "Donation Submitted!";
+}
+
+function logout(){ location.reload(); }
 </script>
 </body>
 </html>
