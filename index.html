@@ -15,7 +15,7 @@
         text-align: center;
     }
     .overlay {
-        background: rgba(0,0,0,0.55);
+        background: rgba(0,0,0,0.45);
         width: 100%;
         height: 100%;
         position: fixed;
@@ -87,6 +87,19 @@
             <option value="Accept">Accept Invite</option>
             <option value="Cancel">Cancel</option>
         </select>
+
+        <h3>Transport Option</h3>
+        <select id="transportChoice">
+            <option value="Own Transport">Own Transport</option>
+            <option value="Group Transport">Group Transport</option>
+        </select>
+
+        <h3>Accommodation</h3>
+        <select id="accommodationChoice">
+            <option value="Own Accommodation">Own Accommodation</option>
+            <option value="Group Accommodation">Group Accommodation</option>
+        </select>
+
         <button onclick="saveRSVP()">Submit Response</button>
         <p id="participantMsg"></p>
 
@@ -100,105 +113,7 @@
             <li>Boma Dinner – $85</li>
         </ul>
         <h4>Donate using EcoCash</h4>
-        <p>EcoCash Number: <strong>077-252-727</strong></p>
+        <p>EcoCash Number: <strong>0772-252-727</strong></p>
         <input id="donationInfo" placeholder="Enter amount or message" />
         <button onclick="submitDonation()">Submit Donation</button>
-        <p id="donationMsg"></p>
-
-        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
-    </div>
-
-    <div id="gateCard" class="card hidden">
-        <h2>GateCrasher Access</h2>
-        <p>You are not on the participants list.</p>
-        <h3>Activities</h3>
-        <ul style="text-align:left;">
-            <li>White water rafting</li>
-            <li>Helicopter tour</li>
-            <li>Chobe National Park Tour</li>
-            <li>Zambezi Sunset Cruise</li>
-            <li>Boma Dinner & Drum Show</li>
-        </ul>
-        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
-    </div>
-
-    <div id="adminCard" class="card hidden">
-        <h2>Admin Dashboard</h2>
-        <p><strong>RSVP Responses:</strong></p>
-        <p id="responseList"></p>
-        <button style="background:crimson;" onclick="logout()">Logout</button>
-    </div>
-</div>
-
-<script>
-const participants = {
-    "Godfrey Jakata": "Chikomborero",
-    "Fine Jakata": "Tawana",
-    "Steven Jakata": "Thoja",
-    "Kudakwashe Jakata": "Kudzaishe",
-    "Jane Mukucha": "Sasha",
-    "Luckson Jakata": "Shumirai",
-    "Philip Mukucha": "Sasha"
-};
-
-let rsvpData = {};
-
-function formatName(name){
-    return name.replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function login(){
-    let name = formatName(document.getElementById("fullname").value.trim());
-    let pass = document.getElementById("password").value.trim();
-
-    if(!name){
-        document.getElementById("loginMsg").innerText = "Please enter full name";
-        return;
-    }
-
-    if(name === "Admin" && pass === "AdminPass2025"){ // Admin password
-        document.getElementById("loginCard").classList.add("hidden");
-        document.getElementById("adminCard").classList.remove("hidden");
-        loadResponses();
-        return;
-    }
-
-    if(participants[name]){
-        if(pass === participants[name]){
-            document.getElementById("loginCard").classList.add("hidden");
-            document.getElementById("participantCard").classList.remove("hidden");
-        } else {
-            document.getElementById("loginMsg").innerText = "Incorrect password";
-        }
-    } else {
-        document.getElementById("loginCard").classList.add("hidden");
-        document.getElementById("gateCard").classList.remove("hidden");
-    }
-}
-
-function saveRSVP(){
-    let name = formatName(document.getElementById("fullname").value.trim());
-    let choice = document.getElementById("rsvpChoice").value;
-    rsvpData[name] = choice;
-    document.getElementById("participantMsg").innerText = "RSVP Saved!";
-}
-
-function loadResponses(){
-    let output = "";
-    for(let name in rsvpData){ output += `${name}: ${rsvpData[name]}<br>`; }
-    document.getElementById("responseList").innerHTML = output;
-}
-
-function submitDonation(){
-    let msg = document.getElementById("donationInfo").value.trim();
-    if(!msg){
-        document.getElementById("donationMsg").innerText = "Enter donation info";
-        return;
-    }
-    document.getElementById("donationMsg").innerText = "Donation Submitted!";
-}
-
-function logout(){ location.reload(); }
-</script>
-</body>
-</html>
+        <p id="donat
