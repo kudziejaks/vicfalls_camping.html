@@ -5,75 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VicFalls Summer Holiday Camping</title>
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    text-align: center;
-}
-.overlay {
-    background: rgba(0,0,0,0.45);
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    padding-top: 40px;
-    overflow-y: auto;
-}
-.card {
-    background: rgba(0, 80, 160, 0.35);
-    border-radius: 18px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    margin: 20px auto;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    animation: fadeIn 1.2s ease-in-out;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-input, select {
-    width: 90%;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    margin-bottom: 10px;
-}
-button {
-    width: 95%;
-    padding: 12px;
-    background: royalblue;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-button:hover { background: dodgerblue; }
-.hidden { display: none; }
-ul { list-style: square; padding-left: 20px; text-align: left; }
-h2 { margin-bottom: 10px; }
-.gallery img { width: 45%; margin: 5px; border-radius: 12px; cursor: pointer; transition: transform 0.3s; }
-.gallery img:hover { transform: scale(1.05); }
-.countdown { font-size: 22px; font-weight: bold; color: gold; margin-bottom: 15px; }
-.itinerary { text-align:left; margin-top: 15px; }
-.itinerary li { margin-bottom: 5px; }
-.feedback { color: lime; font-weight: bold; margin-top: 10px; }
-textarea { width: 90%; height: 200px; margin-top: 10px; border-radius: 10px; padding:10px; background: rgba(0,0,0,0.3); color:white; border:none; }
+body {margin:0; padding:0; font-family: Arial, sans-serif; background: url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21') no-repeat center center fixed; background-size: cover; color: white; text-align: center;}
+.overlay {background: rgba(0,0,0,0.45); width:100%; height:100%; position: fixed; top:0; left:0; padding-top:40px; overflow-y:auto;}
+.card {background: rgba(0,80,160,0.35); border-radius:18px; padding:20px; width:90%; max-width:500px; margin:20px auto; backdrop-filter: blur(5px); box-shadow:0 0 20px rgba(0,0,0,0.5); animation:fadeIn 1.2s ease-in-out;}
+@keyframes fadeIn {from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);}}
+input, select, textarea {width:90%; padding:10px; border-radius:10px; border:none; margin-bottom:10px;}
+button {width:95%; padding:12px; background:royalblue; border:none; border-radius:12px; color:white; font-size:18px; cursor:pointer; margin-bottom:10px;}
+button:hover {background:dodgerblue;}
+.hidden {display:none;}
+ul {list-style:square; padding-left:20px; text-align:left;}
+h2 {margin-bottom:10px;}
+.gallery img {width:45%; margin:5px; border-radius:12px; cursor:pointer; transition: transform 0.3s;}
+.gallery img:hover {transform: scale(1.05);}
+.countdown {font-size:22px; font-weight:bold; color: gold; margin-bottom: 15px;}
+.itinerary {text-align:left; margin-top:15px;}
+.itinerary li {margin-bottom:5px;}
+.feedback {color:lime; font-weight:bold; margin-top:10px;}
+textarea {background: rgba(0,0,0,0.3); color:white; border:none;}
 </style>
 </head>
 <body>
 <div class="overlay">
 
-<!-- Login Card -->
 <div id="loginCard" class="card">
     <h2>Welcome to VicFalls Summer Holiday Camping</h2>
     <h3>Login</h3>
@@ -83,13 +36,12 @@ textarea { width: 90%; height: 200px; margin-top: 10px; border-radius: 10px; pad
     <p id="loginMsg" style="color: yellow;"></p>
 </div>
 
-<!-- Participant Dashboard -->
 <div id="participantCard" class="card hidden">
     <h2>Welcome, <span id="userName"></span>!</h2>
     <div class="countdown" id="countdown"></div>
 
     <h3>Activities</h3>
-    <ul id="activityList">
+    <ul>
         <li>White water rafting</li>
         <li>Helicopter tour</li>
         <li>Chobe National Park Tour</li>
@@ -102,3 +54,214 @@ textarea { width: 90%; height: 200px; margin-top: 10px; border-radius: 10px; pad
         <option value="Accept">Accept Invite</option>
         <option value="Cancel">Cancel</option>
     </select>
+
+    <h3>Transport Option</h3>
+    <select id="transportChoice">
+        <option value="Own Transport">Own Transport</option>
+        <option value="Group Transport">Group Transport</option>
+    </select>
+
+    <h3>Accommodation</h3>
+    <select id="accommodationChoice">
+        <option value="Own Accommodation">Own Accommodation</option>
+        <option value="Group Accommodation">Group Accommodation</option>
+    </select>
+
+    <button onclick="saveRSVP()">Submit RSVP</button>
+    <p id="participantMsg" class="feedback"></p>
+
+    <h3>Event Itinerary (Dec 19 - 26)</h3>
+    <ul class="itinerary" id="itineraryList"></ul>
+
+    <h3>Photo Gallery</h3>
+    <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e" alt="Camp 1">
+        <img src="https://images.unsplash.com/photo-1502784444185-4c7a6a5cbd7c" alt="Camp 2">
+        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98" alt="Zambezi">
+        <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e" alt="Adventure">
+    </div>
+
+    <h3>Donor Section</h3>
+    <ul>
+        <li>White water raft – $50</li>
+        <li>Helicopter tour – $150</li>
+        <li>Chobe full day – $190</li>
+        <li>Sunset Cruise – $49</li>
+        <li>Boma Dinner – $85</li>
+    </ul>
+    <p>EcoCash Number: <strong>077-252-727</strong></p>
+    <input id="donationInfo" placeholder="Enter amount or message">
+    <button onclick="submitDonation()">Submit Donation</button>
+    <p id="donationMsg" class="feedback"></p>
+
+    <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
+</div>
+
+<div id="gateCard" class="card hidden">
+    <h2>GateCrasher Access</h2>
+    <p>You are not on the participants list.</p>
+    <ul>
+        <li>White water rafting</li>
+        <li>Helicopter tour</li>
+        <li>Chobe National Park Tour</li>
+        <li>Zambezi Sunset Cruise</li>
+        <li>Boma Dinner & Drum Show</li>
+    </ul>
+    <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
+</div>
+
+<div id="adminCard" class="card hidden">
+    <h2>Admin Dashboard</h2>
+    <h3>Participant Logins & RSVPs</h3>
+    <textarea id="responseList" readonly></textarea>
+    <h3>Participants not logged in:</h3>
+    <input type="password" id="adminSecret" placeholder="Enter secret password" style="width:70%; margin-bottom:10px;">
+    <button onclick="showNotLoggedIn()">Show Unlogged Participants</button>
+    <textarea id="notLogged" readonly></textarea>
+    <button onclick="downloadReport()">Download Full Report</button>
+    <button style="background:crimson;" onclick="logout()">Logout</button>
+</div>
+
+<script>
+const participants = {
+    "godfrey jakata": "Chikomborero",
+    "fine jakata": "Tawana",
+    "steven jakata": "Thoja",
+    "kudakwashe jakata": "Kudzaishe",
+    "jane mukucha": "Sasha",
+    "luckson jakata": "Shumirai",
+    "philip mukucha": "Sasha"
+};
+
+let rsvpData = {};
+let loginData = {};
+let currentUser = "";
+const itinerary = {
+    "December 19": "Arrival & Camp Setup, Welcome Dinner",
+    "December 20": "White Water Rafting Adventure",
+    "December 21": "Helicopter Tour over Victoria Falls",
+    "December 22": "Chobe National Park Full Day Safari",
+    "December 23": "Zambezi Sunset Cruise",
+    "December 24": "Boma Dinner & Drum Show",
+    "December 25": "Group Games & Free Time",
+    "December 26": "Farewell Breakfast & Departure"
+};
+
+function login() {
+    let nameInput = document.getElementById("fullname").value.trim().toLowerCase();
+    let pass = document.getElementById("password").value.trim();
+    document.getElementById("loginMsg").innerText = "";
+
+    // Admin login
+    if(document.getElementById("fullname").value.trim() === "Admin" && pass === "AdminPass2025") {
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("adminCard").classList.remove("hidden");
+        loadResponses();
+        return;
+    }
+
+    // Participant login (case-insensitive)
+    if(participants.hasOwnProperty(nameInput)) {
+        if(pass === participants[nameInput]) {
+            currentUser = nameInput;
+            document.getElementById("loginCard").classList.add("hidden");
+            document.getElementById("participantCard").classList.remove("hidden");
+            document.getElementById("userName").innerText = capitalizeName(currentUser);
+            if(!loginData[currentUser]) loginData[currentUser] = { loginTime: new Date().toLocaleString(), RSVP: "Not yet submitted" };
+            populateItinerary();
+            startCountdown();
+        } else document.getElementById("loginMsg").innerText = "Incorrect password";
+    } else {
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("gateCard").classList.remove("hidden");
+    }
+}
+
+function capitalizeName(name){
+    return name.split(" ").map(w => w.charAt(0).toUpperCase()+w.slice(1)).join(" ");
+}
+
+function saveRSVP() {
+    let choice = document.getElementById("rsvpChoice").value;
+    let transport = document.getElementById("transportChoice").value;
+    let accomod = document.getElementById("accommodationChoice").value;
+    rsvpData[currentUser] = `RSVP: ${choice}, Transport: ${transport}, Accommodation: ${accomod}`;
+    loginData[currentUser].RSVP = choice;
+    document.getElementById("participantMsg").innerText = `Thank you! Your RSVP "${choice}" has been recorded.`;
+}
+
+function submitDonation() {
+    let msg = document.getElementById("donationInfo").value.trim();
+    if(!msg){ document.getElementById("donationMsg").innerText = "Enter donation info"; return; }
+    document.getElementById("donationMsg").innerText = `Thank you! Your donation "${msg}" has been received.`;
+}
+
+function logout(){ location.reload(); }
+
+function populateItinerary(){
+    const listEl = document.getElementById("itineraryList");
+    listEl.innerHTML = "";
+    for(let day in itinerary){
+        const li = document.createElement("li");
+        li.innerText = `${day}: ${itinerary[day]}`;
+        listEl.appendChild(li);
+    }
+}
+
+function loadResponses(){
+    let output="";
+    for(let name in participants){
+        const loginTime = loginData[name]?.loginTime || "Not logged in";
+        const rsvp = loginData[name]?.RSVP || "Not yet submitted";
+        output+=`${capitalizeName(name)} - Logged in: ${loginTime}, RSVP: ${rsvp}\n`;
+    }
+    document.getElementById("responseList").value = output;
+}
+
+function showNotLoggedIn(){
+    const secret = document.getElementById("adminSecret").value;
+    if(secret !== "SuperSecret2025"){ document.getElementById("notLogged").value="Incorrect password!"; return; }
+    let notLogged="";
+    for(let name in participants){
+        if(!loginData[name]) notLogged+=capitalizeName(name)+"\n";
+    }
+    document.getElementById("notLogged").value = notLogged || "All participants have logged in!";
+}
+
+function downloadReport(){
+    const data = document.getElementById("responseList").value;
+    const blob = new Blob([data], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "VicFalls_Report.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function startCountdown(){
+    const eventStart = new Date("December 19, 2025 08:00:00").getTime();
+    const eventEnd = new Date("December 26, 2025 18:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+
+    const timer = setInterval(()=>{
+        const now = new Date().getTime();
+        if(now<eventStart){
+            const distance=eventStart-now;
+            const days=Math.floor(distance/(1000*60*60*24));
+            const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+            const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+            const seconds=Math.floor((distance%(1000*60))/1000);
+            countdownEl.innerText=`Event starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        } else if(now>=eventStart && now<=eventEnd){
+            const dayNumber = Math.floor((now-eventStart)/(1000*60*60*24))+1;
+            countdownEl.innerText=`Day ${dayNumber} of the VicFalls Camping Event! Enjoy!`;
+        } else {
+            countdownEl.innerText="The camping event has ended. Hope you had fun!";
+            clearInterval(timer);
+        }
+    },1000);
+}
+</script>
+</body>
+</html>
