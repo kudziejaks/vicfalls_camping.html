@@ -58,9 +58,10 @@ input, select, textarea, button {
   border-radius:10px;
   border:none;
   box-sizing:border-box;
-  margin-top:8px;
+  margin-top:4px;
   font-size:14px;
 }
+label{font-size:13px; margin-top:8px; display:block; color:#dbeeffcc;}
 input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.7); }
 .muted{ color: var(--muted); font-size:13px }
 .btn{ background:var(--accent); color:white; cursor:pointer; }
@@ -113,8 +114,10 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
   <h2 style="margin:0">Participant Login</h2>
   <p class="small">Enter your name and app password.</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <label for="fullname">Full Name</label>
     <input id="fullname" placeholder="Full Name (e.g., Godfrey Jakata)" />
-    <input id="pwd" type="password" placeholder="Password (for this app, NOT email)" />
+    <label for="pwd">Password</label>
+    <input id="pwd" type="password" placeholder="Password (for this app)" />
   </div>
   <div style="display:flex;gap:8px;margin-top:8px;">
     <button class="btn" onclick="participantLogin()">Login</button>
@@ -125,10 +128,14 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
 
 <div id="signupCard" style="display:none;margin-top:12px;">
   <h3>Quick Signup</h3>
-  <input id="su_name" placeholder="Full Name" />
-  <input id="su_email" placeholder="Email Address" />
-  <input id="su_phone" placeholder="Phone Number" />
-  <input id="su_pass" type="password" placeholder="Pick a Password (for this app, not email)" />
+  <label for="su_name">Full Name</label>
+  <input id="su_name" placeholder="Enter your full name" />
+  <label for="su_email">Email</label>
+  <input id="su_email" placeholder="Enter your email address" />
+  <label for="su_phone">Phone Number</label>
+  <input id="su_phone" placeholder="Enter your phone number" />
+  <label for="su_pass">Password</label>
+  <input id="su_pass" type="password" placeholder="Pick a password (for this app)" />
   <div style="display:flex;gap:8px;margin-top:8px;">
     <button class="btn" onclick="signup()">Create Account</button>
     <button class="btn btn-ghost" onclick="hideSignup()">Cancel</button>
@@ -145,10 +152,10 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
   <div class="countdown" id="countdown">Loading countdown...</div>
 
   <h3>Quick Profile</h3>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-    <input id="userEmail" placeholder="Email" />
-    <input id="userPhone" placeholder="Phone" />
-  </div>
+  <label>Email</label>
+  <input id="userEmail" placeholder="Email" />
+  <label>Phone</label>
+  <input id="userPhone" placeholder="Phone" />
   <div class="muted small">Your contact info is visible to admin.</div>
   <button class="btn" style="margin-top:8px" onclick="saveProfile()">Save Profile</button>
   <p id="profileMsg" class="feedback"></p>
@@ -164,17 +171,18 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
     <li>Boma Dinner & Drum Show — $85</li>
   </ul>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-    <select id="rsvpChoice">
-      <option value="Accepted">Accept Invite</option>
-      <option value="Declined">Decline</option>
-    </select>
-    <select id="transportChoice">
-      <option value="Own Transport">Own Transport</option>
-      <option value="Group Transport">Group Transport</option>
-    </select>
-  </div>
-  <select id="accommodationChoice" style="margin-top:8px;">
+  <label>RSVP</label>
+  <select id="rsvpChoice">
+    <option value="Accepted">Accept Invite</option>
+    <option value="Declined">Decline</option>
+  </select>
+  <label>Transport</label>
+  <select id="transportChoice">
+    <option value="Own Transport">Own Transport</option>
+    <option value="Group Transport">Group Transport</option>
+  </select>
+  <label>Accommodation</label>
+  <select id="accommodationChoice">
     <option value="Own Accommodation">Own Accommodation</option>
     <option value="Group Accommodation">Group Accommodation</option>
   </select>
@@ -226,15 +234,28 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
 
       <div style="margin-top:8px;">
         <h4>Email Simulator</h4>
-        <div class="small-muted">Pick recipients below and click Prepare. To send, connect backend (example POST included).</div>
+        <div class="small-muted">Pick recipients and click Send. Replace EmailJS IDs with yours in script.</div>
         <select id="emailSelect" multiple style="height:80px;margin-top:6px;"></select>
         <input id="emailSubject" placeholder="Email subject" style="margin-top:6px" />
         <textarea id="emailBody" placeholder="Email body (use {{name}} for recipient)" ></textarea>
         <div style="display:flex;gap:8px;margin-top:6px;">
           <button class="btn" onclick="prepareEmail()">Prepare (simulate)</button>
-          <button class="btn btn-ghost" onclick="sendEmailSimulation()">Send (simulate)</button>
+          <button class="btn btn-ghost" onclick="sendEmailJS()">Send via EmailJS</button>
         </div>
         <div id="emailResult" class="small-muted" style="margin-top:8px"></div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <h4>Participants</h4>
+        <table id="adminTable">
+          <thead>
+            <tr>
+              <th>Name</th><th>Email</th><th>Phone</th><th>RSVP Submitted</th>
+              <th>RSVP Status</th><th>Transport</th><th>Accommodation</th><th>Donations</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -244,19 +265,10 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("yOwYpcXjeLqxfopJb"); // your public key
+emailjs.init("YOUR_PUBLIC_KEY_HERE"); // Replace with your EmailJS public key
 
-// Data & storage
-const STORAGE_KEYS={participants:"vicfalls_participants_v2",loginData:"vicfalls_login_v2",donations:"vicfalls_donations_v2"};
-const defaultParticipants={
-  "godfrey jakata":{displayName:"Godfrey Jakata",password:"Chikomborero"},
-  "fine jakata":{displayName:"Fine Jakata",password:"Tawana"},
-  "steven jakata":{displayName:"Steven Jakata",password:"Thoja"},
-  "kudakwashe jakata":{displayName:"Kudakwashe Jakata",password:"Kudzaishe"},
-  "jane mukucha":{displayName:"Jane Mukucha",password:"Sasha"},
-  "luckson jakata":{displayName:"Luckson Jakata",password:"Shumirai"},
-  "philip mukucha":{displayName:"Philip Mukucha",password:"Sasha"}
-};
+const STORAGE_KEYS={participants:"vicfalls_participants_v2",donations:"vicfalls_donations_v2"};
+const defaultParticipants={};
 let participants=load(STORAGE_KEYS.participants)||defaultParticipants;
 let donations=load(STORAGE_KEYS.donations)||[];
 let currentUser=null;
@@ -324,14 +336,31 @@ setInterval(updateCountdown,1000);
 function adminLogin(){const n=document.getElementById("adminName").value;const p=document.getElementById("adminPass").value;if(n==="Admin"&&p==="AdminPass2025"){document.getElementById("adminPanel").style.display="block";refreshAdminView()}else alert("Wrong admin creds")}
 
 // Admin view
-function refreshAdminView(){const tbody=document.getElementById("adminTable")?.querySelector("tbody");if(!tbody)return;tbody.innerHTML="";for(const k in participants){const p=participants[k];const tr=document.createElement("tr");tr.className="status-"+(p.rsvp?p.rsvp.toLowerCase():"notlogged");tr.innerHTML=`<td>${p.displayName}</td><td>${p.email||""}</td><td>${p.phone||""}</td><td>${p.rsvp==="Unsubmitted"?"No":"Yes"}</td><td>${p.rsvp}</td><td>${p.transport||""}</td><td>${p.accommodation||""}</td><td>${donations.filter(d=>d.name===p.displayName).map(d=>d.amount).join(", ")}</td>`;tbody.appendChild(tr)}}
+function refreshAdminView(){const tbody=document.getElementById("adminTable").querySelector("tbody");tbody.innerHTML="";for(const k in participants){const p=participants[k];const tr=document.createElement("tr");tr.className="status-"+(p.rsvp?p.rsvp.toLowerCase():"notlogged");tr.innerHTML=`<td>${p.displayName}</td><td>${p.email||""}</td><td>${p.phone||""}</td><td>${p.rsvp==="Unsubmitted"?"No":"Yes"}</td><td>${p.rsvp}</td><td>${p.transport||""}</td><td>${p.accommodation||""}</td><td>${donations.filter(d=>d.name===p.displayName).map(d=>d.amount).join(", ")}</td>`;tbody.appendChild(tr)}}
 
-// EmailJS simulation (example)
+// EmailJS real send
+function sendEmailJS(){
+  const sel=document.getElementById("emailSelect");
+  const subject=document.getElementById("emailSubject").value.trim();
+  const bodyTemplate=document.getElementById("emailBody").value;
+  if(!subject||!bodyTemplate){alert("Fill subject and body"); return;}
+  const recipients=[...sel.selectedOptions].map(o=>o.value);
+  recipients.forEach(name=>{
+    const p=Object.values(participants).find(x=>x.displayName===name);
+    if(!p||!p.email)return;
+    const body=bodyTemplate.replace("{{name}}",p.displayName);
+    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{to_name:p.displayName,to_email:p.email,subject:subject,message:body})
+    .then(res=>console.log("Email sent:",res))
+    .catch(err=>console.error(err));
+  });
+  document.getElementById("emailResult").innerText="Emails sent via EmailJS!";
+}
+
+// Email Simulator (still keep for preview)
 function prepareEmail(){const sel=document.getElementById("emailSelect");const body=document.getElementById("emailBody").value;for(let opt of sel.selectedOptions){opt.text=`${opt.value} - ${body.replace("{{name}}",opt.value)}`}} 
-function sendEmailSimulation(){document.getElementById("emailResult").innerText="Email sent (simulated)";}
 
-// Populate email select
 function showEmailSimulator(){const sel=document.getElementById("emailSelect");sel.innerHTML="";for(const k in participants){const p=participants[k];const opt=document.createElement("option");opt.value=p.displayName;opt.text=p.displayName;sel.appendChild(opt)}} 
+
 </script>
 </body>
 </html>
