@@ -117,7 +117,7 @@
       <!-- Login / Signup -->
       <div id="guestCard">
         <h2 style="margin:0">Participant login / Signup</h2>
-        <p class="small">If you already have a name and password, enter it. Or sign up below (your password is your 'firstborn' name or use the suggested password).</p>
+        <p class="small">If you already have a name and password, enter it. Or sign up below.</p>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
           <input id="fullname" placeholder="Full name (e.g. Godfrey Jakata)" />
@@ -130,13 +130,13 @@
         <p id="loginMsg" class="muted"></p>
       </div>
 
-      <!-- Signup card (hidden initially) -->
+      <!-- Signup card -->
       <div id="signupCard" style="display:none;margin-top:12px;">
-        <h3>Quick Signup (creates participant entry)</h3>
-        <input id="su_name" placeholder="Full name (how you'd like it shown)" />
+        <h3>Quick Signup</h3>
+        <input id="su_name" placeholder="Full name" />
         <input id="su_email" placeholder="Email address" />
         <input id="su_phone" placeholder="Phone number" />
-        <input id="su_pass" placeholder="Pick a password (easy to remember)" />
+        <input id="su_pass" placeholder="Pick a password" />
         <div style="display:flex;gap:8px;margin-top:8px;">
           <button class="btn" onclick="signup()">Create account</button>
           <button class="btn btn-ghost" onclick="hideSignup()">Cancel</button>
@@ -144,7 +144,7 @@
         <p id="signupMsg" class="muted"></p>
       </div>
 
-      <!-- Participant Dashboard (after login) -->
+      <!-- Participant Dashboard -->
       <div id="participantCard" style="display:none;margin-top:12px;">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <h2 id="welcomeName" style="margin:0">Welcome!</h2>
@@ -193,32 +193,10 @@
           <button class="btn btn-ghost" onclick="logout()">Logout</button>
         </div>
         <p id="rsvpMsg" class="feedback"></p>
-
-        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-
-        <h3>Donor / Payment</h3>
-        <div class="muted small">Donations recorded here are for your tracking only; use EcoCash to actually pay.</div>
-        <input id="donationInfo" placeholder="Enter amount (USD) or message e.g. $50 for rafting" />
-        <button class="btn" onclick="submitDonation()">Submit Donation</button>
-        <p id="donationMsg" class="feedback"></p>
-        <div class="muted small">EcoCash number: <strong>077-252-727</strong></div>
-
-        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-
-        <h3>Gallery</h3>
-        <div class="gallery">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60" alt="camp1" />
-          <img src="https://images.unsplash.com/photo-1502784444185-4c7a6a5cbd7c?auto=format&w=800&q=60" alt="camp2" />
-        </div>
-
-        <h3 style="margin-top:12px">Itinerary (Dec 19 - 26)</h3>
-        <ul class="itinerary small-muted" id="itineraryList">
-          <!-- populated by JS -->
-        </ul>
       </div>
     </section>
 
-    <!-- RIGHT: Admin & quick info -->
+    <!-- RIGHT: Admin -->
     <aside class="card right-col" id="adminCard" style="display:block;">
       <h3>Quick info</h3>
       <div class="small-muted">Event: Dec 19 → 26, 2025</div>
@@ -226,108 +204,136 @@
 
       <div style="margin-top:10px;">
         <h3>Admin Dashboard</h3>
-        <div class="small-muted">After logging in with the admin box in the header you will see the full dashboard below.</div>
+        <div class="small-muted">After logging in you will see the full dashboard below.</div>
 
-        <!-- Admin panel area (hidden until admin logs in) -->
         <div id="adminPanel" style="display:none;margin-top:10px;">
           <div style="display:flex;gap:6px">
             <button class="btn" onclick="refreshAdminView()">Refresh</button>
-            <button class="btn btn-ghost" onclick="downloadCSV()">Download CSV</button>
-            <button class="btn" onclick="showEmailSimulator()">Email preview</button>
-          </div>
-
-          <div style="margin-top:8px;">
-            <div class="small-muted">Secret (view unlogged): enter code and click Show</div>
-            <input id="secretInput" placeholder="Enter secret (SuperSecret2025)" />
-            <div style="display:flex;gap:6px;margin-top:6px;">
-              <button class="btn" onclick="showNotLogged()">Show Unlogged</button>
-              <button class="btn btn-ghost" onclick="clearAllData()">Clear all (reset)</button>
-            </div>
-            <div id="unloggedList" style="margin-top:8px;color:var(--warn);font-weight:700"></div>
           </div>
 
           <h4 style="margin-top:12px">Participants Overview</h4>
           <div style="max-height:260px; overflow:auto;">
             <table id="adminTable" role="table" aria-label="participants">
               <thead>
-                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Logged In</th><th>RSVP</th><th>Transport</th><th>Accommodation</th><th>Donations</th></tr>
+                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Logged In</th><th>RSVP</th><th>Transport</th><th>Accommodation</th></tr>
               </thead>
               <tbody></tbody>
             </table>
           </div>
-
-          <div style="margin-top:10px;">
-            <h4>Email Simulator</h4>
-            <div class="small-muted">Pick recipients below and click Prepare. To actually send, connect to your backend email endpoint (example POST included in comments).</div>
-            <select id="emailSelect" multiple style="height:80px;margin-top:6px;"></select>
-            <input id="emailSubject" placeholder="Email subject" style="margin-top:6px" />
-            <textarea id="emailBody" placeholder="Email body (use {{name}} for recipient name)" ></textarea>
-            <div style="display:flex;gap:8px;margin-top:6px;">
-              <button class="btn" onclick="prepareEmail()">Prepare (simulate)</button>
-              <button class="btn btn-ghost" onclick="sendEmailSimulation()">Send (simulate)</button>
-            </div>
-            <div id="emailResult" class="small-muted" style="margin-top:8px"></div>
-          </div>
-
-          <!-- Feedback Sender -->
-          <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-          <h4>Send Feedback</h4>
-          <input id="adminFeedbackMessage" placeholder="Enter feedback message here" style="width:100%;margin-bottom:6px;" />
-          <button class="btn" onclick="sendFeedbackEmails(document.getElementById('adminFeedbackMessage').value)">
-            Send Feedback to All Accepted
-          </button>
         </div>
-
       </div>
     </aside>
 
   </div><!-- /container -->
 </div><!-- /overlay -->
 
-<!-- EmailJS SDK -->
-<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-<script type="text/javascript">
-  emailjs.init("yOwYpcXjeLqxfopJb"); // Your Public Key
-</script>
-
+<!-- ======================= SCRIPT ======================= -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
-/* Your original app JS code here ... (participants, login, RSVP, donations, countdown etc.) */
+(function(){
+  emailjs.init("yOwYpcXjeLqxfopJb"); // Public key
+})();
+</script>
+<script>
+/* -----------------------------
+   Data model & persistence
+----------------------------- */
+const STORAGE_KEYS = {
+  participants: "vicfalls_participants_v1",
+  loginData: "vicfalls_login_v1"
+};
 
-/* ===========================================================
-   Feedback Emails function
-=========================================================== */
-function sendFeedbackEmails(feedbackMessage) {
-  if (!loginData || !participants) return;
+const defaultParticipants = {
+  "godfrey jakata": { displayName: "Godfrey Jakata", password: "Chikomborero" }
+};
 
-  for (const key in participants) {
-    const participant = participants[key];
-    const data = loginData[key];
+let participants = load(STORAGE_KEYS.participants) || defaultParticipants;
+let loginData = load(STORAGE_KEYS.loginData) || {};
 
-    if (data && data.RSVP === "Accepted" && data.email) {
-      emailjs.send(
-        "service_n6q8s1o",
-        "template_kobgbcc",
-        {
-          name: participant.displayName,
-          feedbackMessage: feedbackMessage
-        }
-      ).then(
-        (response) => {
-          console.log(`Email sent to ${participant.displayName}:`, response.status, response.text);
-        },
-        (error) => {
-          console.error(`Failed to send email to ${participant.displayName}:`, error);
-        }
-      );
-    }
-  }
-  alert("Feedback emails sent to all accepted participants!");
+function save(key,obj){ localStorage.setItem(key,JSON.stringify(obj)); }
+function load(key){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):null;}catch(e){return null;} }
+function nowStr(){ return new Date().toLocaleString(); }
+
+/* -----------------------------
+   Signup & login
+----------------------------- */
+function showSignup(){ document.getElementById("signupCard").style.display="block"; document.getElementById("signupMsg").innerText=""; }
+function hideSignup(){ document.getElementById("signupCard").style.display="none"; }
+
+let currentUser = null;
+
+function signup(){
+  const name=document.getElementById("su_name").value.trim();
+  const email=document.getElementById("su_email").value.trim();
+  const phone=document.getElementById("su_phone").value.trim();
+  const pass=document.getElementById("su_pass").value.trim();
+  if(!name||!email||!phone||!pass){ document.getElementById("signupMsg").innerText="Please fill all fields"; return; }
+  const key=name.toLowerCase();
+  if(participants[key]){ document.getElementById("signupMsg").innerText="An account with that name already exists"; return; }
+  participants[key]={displayName:name,password:pass,email,phone};
+  save(STORAGE_KEYS.participants,participants);
+  document.getElementById("signupMsg").innerText="Account created! You can now login.";
+  setTimeout(()=>{ hideSignup(); document.getElementById("signupMsg").innerText=""; },1200);
 }
 
-/* =============================
-   Rest of your JS (login/signup/donation/etc.)
-   Include the code from your previous app here
-============================= */
+function participantLogin(){
+  const nameRaw=document.getElementById("fullname").value.trim();
+  const pass=document.getElementById("pwd").value;
+  if(!nameRaw){ document.getElementById("loginMsg").innerText="Please enter your name."; return; }
+  const key=nameRaw.toLowerCase();
+  if(!participants[key]){ document.getElementById("loginMsg").innerText="Name not found. Please sign up or check spelling."; return; }
+  if(participants[key].password!==pass){ document.getElementById("loginMsg").innerText="Incorrect password. Check and try again."; return; }
+
+  currentUser=key;
+  if(!loginData[key]) loginData[key]={loginTime:nowStr(),RSVP:"Not yet submitted",transport:"-",accommodation:"-",email:participants[key].email,phone:participants[key].phone};
+  else loginData[key].loginTime=nowStr();
+  save(STORAGE_KEYS.loginData,loginData);
+  document.getElementById("loginMsg").innerText="";
+  showParticipantDashboard();
+}
+
+/* -----------------------------
+   Dashboard
+----------------------------- */
+function showParticipantDashboard(){
+  document.getElementById("guestCard").style.display="none";
+  document.getElementById("signupCard").style.display="none";
+  document.getElementById("participantCard").style.display="block";
+  document.getElementById("welcomeName").innerText=participants[currentUser].displayName;
+  document.getElementById("userEmail").value=loginData[currentUser].email;
+  document.getElementById("userPhone").value=loginData[currentUser].phone;
+}
+
+/* -----------------------------
+   RSVP + EmailJS
+----------------------------- */
+function submitRSVP(){
+  if(!currentUser){ alert("Please login first."); return; }
+  const rsvp=document.getElementById("rsvpChoice").value;
+  const transport=document.getElementById("transportChoice").value;
+  const accommodation=document.getElementById("accommodationChoice").value;
+  loginData[currentUser].RSVP=rsvp;
+  loginData[currentUser].transport=transport;
+  loginData[currentUser].accommodation=accommodation;
+  save(STORAGE_KEYS.loginData,loginData);
+  document.getElementById("rsvpMsg").innerText=`RSVP "${rsvp}" recorded.`;
+
+  if(rsvp==="Accepted"){
+    // Send feedback email via EmailJS
+    const templateParams = {
+      name: participants[currentUser].displayName,
+      email: participants[currentUser].email,
+      rsvp: rsvp
+    };
+    emailjs.send('service_n6q8s1o','template_kobgbcc',templateParams)
+    .then(function(response){
+      console.log('Email sent',response.status,response.text);
+    }, function(error){
+      console.error('Email error',error);
+    });
+  }
+  setTimeout(()=>{ document.getElementById("rsvpMsg").innerText=""; },2500);
+}
 </script>
 </body>
 </html>
