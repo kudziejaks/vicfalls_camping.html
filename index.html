@@ -5,310 +5,333 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>VicFalls Summer Holiday Camping — Full App</title>
 <style>
-  :root{
-    --card-bg: rgba(0,80,160,0.35);
-    --accent: #2e9df7;
-    --success: #2ecc71;
-    --danger: #e74c3c;
-    --warn: #f1c40f;
-    --muted: #95a5a6;
-    --glass: rgba(0,0,0,0.45);
-    --text: #fff;
-  }
-  html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:#001; color:var(--text);}
-  body{
-    background-image: url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=60');
-    background-size: cover;
-    background-position:center;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-  }
-  .overlay{
-    background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.55));
-    min-height:100%;
-    padding:32px 12px;
-    box-sizing:border-box;
-  }
-  .container{
-    max-width:980px;
-    margin:0 auto;
-    display:grid;
-    grid-template-columns: 1fr 380px;
-    gap:20px;
-  }
-  .card{
-    background:var(--card-bg);
-    border-radius:16px;
-    padding:18px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-    backdrop-filter: blur(6px);
-    color:var(--text);
-  }
-  header.card{
-    grid-column: 1 / -1;
-    display:flex;
-    align-items:center;
-    gap:16px;
-  }
-  header h1{margin:0;font-size:20px}
-  .small{font-size:13px; color: #e9f6ffcc}
-  .left-col{min-height:200px}
-  .right-col{position:sticky; top:24px; height:fit-content}
-  input, select, textarea, button {
-    width:100%;
-    padding:10px 12px;
-    border-radius:10px;
-    border:none;
-    box-sizing:border-box;
-    margin-top:8px;
-    font-size:14px;
-  }
-  input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.7); }
-  .muted{ color: var(--muted); font-size:13px }
-  .btn{ background:var(--accent); color:white; cursor:pointer; }
-  .btn-danger{ background:var(--danger); }
-  .btn-ghost{ background: transparent; border:1px solid rgba(255,255,255,0.08); color:var(--text); }
-  .feedback{ margin-top:8px; color: var(--success); font-weight:700; }
-  .gallery img{ width:48%; margin:1%; border-radius:10px; display:inline-block; cursor:pointer; }
-  .countdown{ font-size:16px; font-weight:700; color: gold; padding:6px 0;}
-  .itinerary li{ margin:6px 0; }
-  table{ width:100%; border-collapse:collapse; font-size:13px; }
-  th,td{ padding:8px 6px; text-align:left; border-bottom: 1px dashed rgba(255,255,255,0.06); }
-  tr.status-accept td{ background: rgba(46,204,113,0.06); }
-  tr.status-deny td{ background: rgba(231,76,60,0.05); }
-  tr.status-unsubmitted td{ background: rgba(200,200,200,0.02); }
-  tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
-  .small-muted{ font-size:12px; color: #dbeeffaa; }
-  .flex{ display:flex; gap:8px; align-items:center; }
-  .center{ text-align:center; }
-  label{ font-size:13px; color: #dbeeffcc; margin-top:6px; display:block; }
-  @media (max-width:980px){
-    .container{ grid-template-columns: 1fr; padding-bottom:60px; }
-    header.card{ flex-direction:column; align-items:flex-start; gap:6px; }
-    .right-col{ position:static; top:auto; }
-    .gallery img{ width:48%; }
-  }
+:root{
+  --card-bg: rgba(0,80,160,0.35);
+  --accent: #2e9df7;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warn: #f1c40f;
+  --muted: #95a5a6;
+  --glass: rgba(0,0,0,0.45);
+  --text: #fff;
+}
+html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:#001; color:var(--text);}
+body{
+  background-image: url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=60');
+  background-size: cover;
+  background-position:center;
+}
+.overlay{
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.55));
+  min-height:100%;
+  padding:32px 12px;
+  box-sizing:border-box;
+}
+.container{
+  max-width:980px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns: 1fr 380px;
+  gap:20px;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  color:var(--text);
+}
+header.card{
+  grid-column: 1 / -1;
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+header h1{margin:0;font-size:20px}
+.small{font-size:13px; color: #e9f6ffcc}
+.left-col{min-height:200px}
+.right-col{position:sticky; top:24px; height:fit-content}
+input, select, textarea, button {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:none;
+  box-sizing:border-box;
+  margin-top:8px;
+  font-size:14px;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.7); }
+.muted{ color: var(--muted); font-size:13px }
+.btn{ background:var(--accent); color:white; cursor:pointer; }
+.btn-danger{ background:var(--danger); }
+.btn-ghost{ background: transparent; border:1px solid rgba(255,255,255,0.08); color:var(--text); }
+.feedback{ margin-top:8px; color: var(--success); font-weight:700; }
+.gallery img{ width:48%; margin:1%; border-radius:10px; display:inline-block; cursor:pointer; }
+.countdown{ font-size:16px; font-weight:700; color: gold; padding:6px 0;}
+.itinerary li{ margin:6px 0; }
+table{ width:100%; border-collapse:collapse; font-size:13px; }
+th,td{ padding:8px 6px; text-align:left; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+tr.status-accept td{ background: rgba(46,204,113,0.06); }
+tr.status-deny td{ background: rgba(231,76,60,0.05); }
+tr.status-unsubmitted td{ background: rgba(200,200,200,0.02); }
+tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
+.small-muted{ font-size:12px; color: #dbeeffaa; }
+.flex{ display:flex; gap:8px; align-items:center; }
+.center{ text-align:center; }
+@media (max-width:980px){
+  .container{ grid-template-columns: 1fr; padding-bottom:60px; }
+  header.card{ flex-direction:column; align-items:flex-start; gap:6px; }
+  .right-col{ position:static; top:auto; }
+  .gallery img{ width:48%; }
+}
 </style>
 </head>
 <body>
 <div class="overlay">
-  <div class="container">
+<div class="container">
 
-    <!-- Header -->
-    <header class="card">
-      <div style="flex:1;">
-        <h1>VicFalls Summer Holiday Camping</h1>
-        <div class="small">Event dates: <strong>December 19 → 26, 2025</strong></div>
+<header class="card">
+  <div style="flex:1;">
+    <h1>VicFalls Summer Holiday Camping</h1>
+    <div class="small">Event dates: <strong>December 19 → 26, 2025</strong></div>
+  </div>
+  <div style="width:260px;">
+    <div class="small-muted">Admin login</div>
+    <div style="display:flex;gap:6px">
+      <input id="adminName" placeholder="Admin" value="Admin" />
+      <input id="adminPass" type="password" placeholder="Password" />
+      <button class="btn" onclick="adminLogin()">Login</button>
+    </div>
+    <div class="small muted" style="margin-top:6px">Admin creds: <strong>Admin / AdminPass2025</strong></div>
+  </div>
+</header>
+
+<section class="card left-col" id="mainCard">
+
+<div id="guestCard">
+  <h2 style="margin:0">Participant Login</h2>
+  <p class="small">Enter your name and app password.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <input id="fullname" placeholder="Full Name (e.g., Godfrey Jakata)" />
+    <input id="pwd" type="password" placeholder="Password (for this app, NOT email)" />
+  </div>
+  <div style="display:flex;gap:8px;margin-top:8px;">
+    <button class="btn" onclick="participantLogin()">Login</button>
+    <button class="btn btn-ghost" onclick="showSignup()">Quick Signup</button>
+  </div>
+  <p id="loginMsg" class="muted"></p>
+</div>
+
+<div id="signupCard" style="display:none;margin-top:12px;">
+  <h3>Quick Signup</h3>
+  <input id="su_name" placeholder="Full Name" />
+  <input id="su_email" placeholder="Email Address" />
+  <input id="su_phone" placeholder="Phone Number" />
+  <input id="su_pass" type="password" placeholder="Pick a Password (for this app, not email)" />
+  <div style="display:flex;gap:8px;margin-top:8px;">
+    <button class="btn" onclick="signup()">Create Account</button>
+    <button class="btn btn-ghost" onclick="hideSignup()">Cancel</button>
+  </div>
+  <p id="signupMsg" class="muted"></p>
+</div>
+
+<div id="participantCard" style="display:none;margin-top:12px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <h2 id="welcomeName" style="margin:0">Welcome!</h2>
+    <div class="small-muted">Local time: <span id="localTime"></span></div>
+  </div>
+
+  <div class="countdown" id="countdown">Loading countdown...</div>
+
+  <h3>Quick Profile</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <input id="userEmail" placeholder="Email" />
+    <input id="userPhone" placeholder="Phone" />
+  </div>
+  <div class="muted small">Your contact info is visible to admin.</div>
+  <button class="btn" style="margin-top:8px" onclick="saveProfile()">Save Profile</button>
+  <p id="profileMsg" class="feedback"></p>
+
+  <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
+
+  <h3>Activities & RSVP</h3>
+  <ul class="muted">
+    <li>White water rafting — $50</li>
+    <li>Helicopter tour — $150</li>
+    <li>Chobe full day — $190</li>
+    <li>Zambezi Sunset Cruise — $49</li>
+    <li>Boma Dinner & Drum Show — $85</li>
+  </ul>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+    <select id="rsvpChoice">
+      <option value="Accepted">Accept Invite</option>
+      <option value="Declined">Decline</option>
+    </select>
+    <select id="transportChoice">
+      <option value="Own Transport">Own Transport</option>
+      <option value="Group Transport">Group Transport</option>
+    </select>
+  </div>
+  <select id="accommodationChoice" style="margin-top:8px;">
+    <option value="Own Accommodation">Own Accommodation</option>
+    <option value="Group Accommodation">Group Accommodation</option>
+  </select>
+
+  <div style="display:flex;gap:8px;margin-top:8px;">
+    <button class="btn" onclick="submitRSVP()">Submit RSVP</button>
+    <button class="btn btn-ghost" onclick="logout()">Logout</button>
+  </div>
+  <p id="rsvpMsg" class="feedback"></p>
+
+  <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
+
+  <h3>Donor / Payment</h3>
+  <div class="muted small">Record donations here; use EcoCash to actually pay.</div>
+  <input id="donationInfo" placeholder="Enter amount (USD) or message e.g. $50 for rafting" />
+  <button class="btn" onclick="submitDonation()">Submit Donation</button>
+  <p id="donationMsg" class="feedback"></p>
+  <div class="muted small">EcoCash number: <strong>077-252-727</strong></div>
+
+  <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
+
+  <h3>Gallery</h3>
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60" alt="camp1" />
+    <img src="https://images.unsplash.com/photo-1502784444185-4c7a6a5cbd7c?auto=format&w=800&q=60" alt="camp2" />
+  </div>
+
+  <h3 style="margin-top:12px">Itinerary (Dec 19 - 26)</h3>
+  <ul class="itinerary small-muted" id="itineraryList"></ul>
+</div>
+
+</section>
+
+<aside class="card right-col" id="adminCard" style="display:block;">
+  <h3>Quick info</h3>
+  <div class="small-muted">Event: Dec 19 → 26, 2025</div>
+  <div style="height:10px"></div>
+
+  <div style="margin-top:10px;">
+    <h3>Admin Dashboard</h3>
+    <div class="small-muted">Use header login to view full dashboard.</div>
+
+    <div id="adminPanel" style="display:none;margin-top:10px;">
+      <div style="display:flex;gap:6px">
+        <button class="btn" onclick="refreshAdminView()">Refresh</button>
+        <button class="btn btn-ghost" onclick="downloadCSV()">Download CSV</button>
+        <button class="btn" onclick="showEmailSimulator()">Email preview</button>
       </div>
 
-      <div style="width:260px;">
-        <div class="small-muted">Admin login</div>
-        <div style="display:flex;gap:6px">
-          <input id="adminName" placeholder="Admin" value="Admin" />
-          <input id="adminPass" type="password" placeholder="Password" />
-          <button class="btn" onclick="adminLogin()">Login</button>
+      <div style="margin-top:8px;">
+        <h4>Email Simulator</h4>
+        <div class="small-muted">Pick recipients below and click Prepare. To send, connect backend (example POST included).</div>
+        <select id="emailSelect" multiple style="height:80px;margin-top:6px;"></select>
+        <input id="emailSubject" placeholder="Email subject" style="margin-top:6px" />
+        <textarea id="emailBody" placeholder="Email body (use {{name}} for recipient)" ></textarea>
+        <div style="display:flex;gap:8px;margin-top:6px;">
+          <button class="btn" onclick="prepareEmail()">Prepare (simulate)</button>
+          <button class="btn btn-ghost" onclick="sendEmailSimulation()">Send (simulate)</button>
         </div>
-        <div class="small muted" style="margin-top:6px">Admin creds: <strong>Admin / AdminPass2025</strong></div>
+        <div id="emailResult" class="small-muted" style="margin-top:8px"></div>
       </div>
-    </header>
+    </div>
+  </div>
+</aside>
 
-    <!-- LEFT: Participant / Main -->
-    <section class="card left-col" id="mainCard">
+</div></div>
 
-      <!-- Login / Signup -->
-      <div id="guestCard">
-        <h2>Participant Login / Signup</h2>
-        <p class="small">
-          Already have a name and password? Enter it below to log in.  
-          If this is your first time, sign up using the "Quick Signup" form.  
-          You are signing up to participate in <strong>VicFalls Summer Holiday Camping 2025</strong>.
-        </p>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <input id="fullname" placeholder="Full Name (enter your full name)" />
-          <input id="pwd" placeholder="Password (enter your password)" type="password" />
-        </div>
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn" onclick="participantLogin()">Login</button>
-          <button class="btn btn-ghost" onclick="showSignup()">Signup</button>
-        </div>
-        <p id="loginMsg" class="muted"></p>
-      </div>
-
-      <!-- Signup card (hidden initially) -->
-      <div id="signupCard" style="display:none;margin-top:12px;">
-        <h3>Quick Signup (creates participant entry)</h3>
-        <p class="small">
-          Fill out all fields to register for <strong>VicFalls Summer Holiday Camping 2025</strong>.  
-          After signup, you will be able to RSVP, save your profile, and receive event updates via email.
-        </p>
-
-        <div style="display:grid;grid-template-columns:1fr;gap:8px">
-          <label for="su_name">Full Name:</label>
-          <input id="su_name" placeholder="Enter your full name" />
-          
-          <label for="su_email">Email Address:</label>
-          <input id="su_email" placeholder="Enter your email (for notifications)" />
-
-          <label for="su_phone">Phone Number:</label>
-          <input id="su_phone" placeholder="Enter your phone number" />
-
-          <label for="su_pass">Password:</label>
-          <input id="su_pass" placeholder="Pick a password (easy to remember)" type="password" />
-        </div>
-
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn" onclick="signup()">Create Account</button>
-          <button class="btn btn-ghost" onclick="hideSignup()">Cancel</button>
-        </div>
-        <p id="signupMsg" class="muted"></p>
-      </div>
-
-      <!-- Participant Dashboard (after login) -->
-      <div id="participantCard" style="display:none;margin-top:12px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <h2 id="welcomeName" style="margin:0">Welcome!</h2>
-          <div class="small-muted">Local time: <span id="localTime"></span></div>
-        </div>
-
-        <div class="countdown" id="countdown">Loading countdown...</div>
-
-        <h3>Quick profile</h3>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <input id="userEmail" placeholder="Email" />
-          <input id="userPhone" placeholder="Phone" />
-        </div>
-        <div class="muted small">Your contact info is stored in your browser and visible to admin for event coordination.</div>
-        <button class="btn" style="margin-top:8px" onclick="saveProfile()">Save Profile</button>
-        <p id="profileMsg" class="feedback"></p>
-
-        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-
-        <h3>Activities & RSVP</h3>
-        <ul class="muted">
-          <li>White water rafting — $50</li>
-          <li>Helicopter tour — $150</li>
-          <li>Chobe full day — $190</li>
-          <li>Zambezi Sunset Cruise — $49</li>
-          <li>Boma Dinner & Drum Show — $85</li>
-        </ul>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-          <select id="rsvpChoice">
-            <option value="Accepted">Accept Invite</option>
-            <option value="Declined">Decline</option>
-          </select>
-          <select id="transportChoice">
-            <option value="Own Transport">Own Transport</option>
-            <option value="Group Transport">Group Transport</option>
-          </select>
-        </div>
-        <select id="accommodationChoice" style="margin-top:8px;">
-          <option value="Own Accommodation">Own Accommodation</option>
-          <option value="Group Accommodation">Group Accommodation</option>
-        </select>
-
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn" onclick="submitRSVP()">Submit RSVP</button>
-          <button class="btn btn-ghost" onclick="logout()">Logout</button>
-        </div>
-        <p id="rsvpMsg" class="feedback"></p>
-
-        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-
-        <h3>Donor / Payment</h3>
-        <div class="muted small">Donations recorded here are for your tracking only; use EcoCash to actually pay.</div>
-        <input id="donationInfo" placeholder="Enter amount (USD) or message e.g. $50 for rafting" />
-        <button class="btn" onclick="submitDonation()">Submit Donation</button>
-        <p id="donationMsg" class="feedback"></p>
-        <div class="muted small">EcoCash number: <strong>077-252-727</strong></div>
-
-        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
-
-        <h3>Gallery</h3>
-        <div class="gallery">
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60" alt="camp1" />
-          <img src="https://images.unsplash.com/photo-1502784444185-4c7a6a5cbd7c?auto=format&w=800&q=60" alt="camp2" />
-        </div>
-
-        <h3 style="margin-top:12px">Itinerary (Dec 19 - 26)</h3>
-        <ul class="itinerary small-muted" id="itineraryList">
-          <!-- populated by JS -->
-        </ul>
-      </div>
-    </section>
-
-    <!-- RIGHT: Admin & quick info -->
-    <aside class="card right-col" id="adminCard" style="display:block;">
-      <h3>Quick info</h3>
-      <div class="small-muted">Event: Dec 19 → 26, 2025</div>
-      <div style="height:10px"></div>
-
-      <div style="margin-top:10px;">
-        <h3>Admin Dashboard</h3>
-        <div class="small-muted">After logging in with the admin box in the header you will see the full dashboard below.</div>
-
-        <!-- Admin panel area (hidden until admin logs in) -->
-        <div id="adminPanel" style="display:none;margin-top:10px;">
-          <div style="display:flex;gap:6px">
-            <button class="btn" onclick="refreshAdminView()">Refresh</button>
-            <button class="btn btn-ghost" onclick="downloadCSV()">Download CSV</button>
-            <button class="btn" onclick="showEmailSimulator()">Email preview</button>
-          </div>
-
-          <div style="margin-top:8px;">
-            <div class="small-muted">Secret (view unlogged): enter code and click Show</div>
-            <input id="secretInput" placeholder="Enter secret (SuperSecret2025)" />
-            <div style="display:flex;gap:6px;margin-top:6px;">
-              <button class="btn" onclick="showNotLogged()">Show Unlogged</button>
-              <button class="btn btn-ghost" onclick="clearAllData()">Clear all (reset)</button>
-            </div>
-            <div id="unloggedList" style="margin-top:8px;color:var(--warn);font-weight:700"></div>
-          </div>
-
-          <h4 style="margin-top:12px">Participants Overview</h4>
-          <div style="max-height:260px; overflow:auto;">
-            <table id="adminTable" role="table" aria-label="participants">
-              <thead>
-                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Logged In</th><th>RSVP</th><th>Transport</th><th>Accommodation</th><th>Donations</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-
-          <div style="margin-top:10px;">
-            <h4>Email Simulator</h4>
-            <div class="small-muted">Pick recipients below and click Prepare. To actually send, connect to your backend email endpoint (example POST included in comments).</div>
-            <select id="emailSelect" multiple style="height:80px;margin-top:6px;"></select>
-            <input id="emailSubject" placeholder="Email subject" style="margin-top:6px" />
-            <textarea id="emailBody" placeholder="Email body (use {{name}} for recipient name)" ></textarea>
-            <div style="display:flex;gap:8px;margin-top:6px;">
-              <button class="btn" onclick="prepareEmail()">Prepare (simulate)</button>
-              <button class="btn btn-ghost" onclick="sendEmailSimulation()">Send (simulate)</button>
-            </div>
-            <div id="emailResult" class="small-muted" style="margin-top:8px"></div>
-          </div>
-        </div>
-
-      </div>
-    </aside>
-
-  </div><!-- /container -->
-</div><!-- /overlay -->
-
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-(function(){
-  emailjs.init("yOwYpcXjeLqxfopJb"); // your public key
-})();
-</script>
+emailjs.init("yOwYpcXjeLqxfopJb"); // your public key
 
-<script>
-/* ===========================================================
-   The rest of your previous JS code (participants, login, RSVP, donations, admin, countdown, itinerary)
-   remains exactly as in your original file
-   ============================================================ */
-</script>
+// Data & storage
+const STORAGE_KEYS={participants:"vicfalls_participants_v2",loginData:"vicfalls_login_v2",donations:"vicfalls_donations_v2"};
+const defaultParticipants={
+  "godfrey jakata":{displayName:"Godfrey Jakata",password:"Chikomborero"},
+  "fine jakata":{displayName:"Fine Jakata",password:"Tawana"},
+  "steven jakata":{displayName:"Steven Jakata",password:"Thoja"},
+  "kudakwashe jakata":{displayName:"Kudakwashe Jakata",password:"Kudzaishe"},
+  "jane mukucha":{displayName:"Jane Mukucha",password:"Sasha"},
+  "luckson jakata":{displayName:"Luckson Jakata",password:"Shumirai"},
+  "philip mukucha":{displayName:"Philip Mukucha",password:"Sasha"}
+};
+let participants=load(STORAGE_KEYS.participants)||defaultParticipants;
+let donations=load(STORAGE_KEYS.donations)||[];
+let currentUser=null;
 
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
+function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+function nowStr(){return new Date().toLocaleString()}
+
+// Signup & login
+function showSignup(){document.getElementById("signupCard").style.display="block";document.getElementById("signupMsg").innerText=""}
+function hideSignup(){document.getElementById("signupCard").style.display="none"}
+function signup(){
+  const n=document.getElementById("su_name").value.trim();
+  const e=document.getElementById("su_email").value.trim();
+  const p=document.getElementById("su_phone").value.trim();
+  const pass=document.getElementById("su_pass").value.trim();
+  if(!n||!e||!p||!pass){document.getElementById("signupMsg").innerText="Fill all fields";return;}
+  const key=n.toLowerCase();
+  if(participants[key]){document.getElementById("signupMsg").innerText="Name exists";return;}
+  participants[key]={displayName:n,password:pass,email:e,phone:p,rsvp:"Unsubmitted",transport:"",accommodation:""};
+  save(STORAGE_KEYS.participants,participants);
+  document.getElementById("signupMsg").innerText="Account created! Login above.";hideSignup();
+}
+
+function participantLogin(){
+  const n=document.getElementById("fullname").value.trim();
+  const pass=document.getElementById("pwd").value.trim();
+  const key=n.toLowerCase();
+  if(!participants[key]){document.getElementById("loginMsg").innerText="Participant not found";return;}
+  if(participants[key].password!==pass){document.getElementById("loginMsg").innerText="Incorrect password";return;}
+  currentUser=key;
+  document.getElementById("loginMsg").innerText="";
+  showParticipantCard();
+}
+
+function showParticipantCard(){
+  document.getElementById("guestCard").style.display="none";
+  document.getElementById("participantCard").style.display="block";
+  const p=participants[currentUser];
+  document.getElementById("welcomeName").innerText="Welcome, "+p.displayName;
+  document.getElementById("userEmail").value=p.email||"";
+  document.getElementById("userPhone").value=p.phone||"";
+  document.getElementById("rsvpChoice").value=p.rsvp||"Unsubmitted";
+  document.getElementById("transportChoice").value=p.transport||"Own Transport";
+  document.getElementById("accommodationChoice").value=p.accommodation||"Own Accommodation";
+}
+
+function logout(){currentUser=null;document.getElementById("guestCard").style.display="block";document.getElementById("participantCard").style.display="none"}
+
+function saveProfile(){if(!currentUser)return;participants[currentUser].email=document.getElementById("userEmail").value.trim();participants[currentUser].phone=document.getElementById("userPhone").value.trim();save(STORAGE_KEYS.participants,participants);document.getElementById("profileMsg").innerText="Profile saved!"}
+
+function submitRSVP(){if(!currentUser)return;participants[currentUser].rsvp=document.getElementById("rsvpChoice").value;participants[currentUser].transport=document.getElementById("transportChoice").value;participants[currentUser].accommodation=document.getElementById("accommodationChoice").value;save(STORAGE_KEYS.participants,participants);document.getElementById("rsvpMsg").innerText="RSVP updated!"}
+
+function submitDonation(){if(!currentUser)return;const amt=document.getElementById("donationInfo").value.trim();if(!amt){document.getElementById("donationMsg").innerText="Enter amount";return;}donations.push({name:participants[currentUser].displayName,amount:amt,time:nowStr()});save(STORAGE_KEYS.donations,donations);document.getElementById("donationMsg").innerText="Donation recorded!"}
+
+// Countdown & itinerary
+function populateItinerary(){const ul=document.getElementById("itineraryList");const items=["Dec 19: Arrival & welcome","Dec 20: White water rafting","Dec 21: Helicopter tour","Dec 22: Chobe full day","Dec 23: Zambezi Sunset Cruise","Dec 24: Boma Dinner & Drum Show","Dec 25: Free day","Dec 26: Departure"];ul.innerHTML="";items.forEach(i=>{const li=document.createElement("li");li.innerText=i;ul.appendChild(li)})}
+function updateLocalTime(){document.getElementById("localTime").innerText=new Date().toLocaleTimeString()}
+document.addEventListener("DOMContentLoaded",()=>{populateItinerary();updateLocalTime();setInterval(updateLocalTime,60000)})
+
+function updateCountdown(){const eventDate=new Date("Dec 19,2025 09:00:00");const now=new Date();const diff=eventDate-now;if(diff<0){document.getElementById("countdown").innerText="Event started!";return;}const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);document.getElementById("countdown").innerText=`${d}d ${h}h ${m}m ${s}s remaining`;}
+setInterval(updateCountdown,1000);
+
+// Admin login
+function adminLogin(){const n=document.getElementById("adminName").value;const p=document.getElementById("adminPass").value;if(n==="Admin"&&p==="AdminPass2025"){document.getElementById("adminPanel").style.display="block";refreshAdminView()}else alert("Wrong admin creds")}
+
+// Admin view
+function refreshAdminView(){const tbody=document.getElementById("adminTable")?.querySelector("tbody");if(!tbody)return;tbody.innerHTML="";for(const k in participants){const p=participants[k];const tr=document.createElement("tr");tr.className="status-"+(p.rsvp?p.rsvp.toLowerCase():"notlogged");tr.innerHTML=`<td>${p.displayName}</td><td>${p.email||""}</td><td>${p.phone||""}</td><td>${p.rsvp==="Unsubmitted"?"No":"Yes"}</td><td>${p.rsvp}</td><td>${p.transport||""}</td><td>${p.accommodation||""}</td><td>${donations.filter(d=>d.name===p.displayName).map(d=>d.amount).join(", ")}</td>`;tbody.appendChild(tr)}}
+
+// EmailJS simulation (example)
+function prepareEmail(){const sel=document.getElementById("emailSelect");const body=document.getElementById("emailBody").value;for(let opt of sel.selectedOptions){opt.text=`${opt.value} - ${body.replace("{{name}}",opt.value)}`}} 
+function sendEmailSimulation(){document.getElementById("emailResult").innerText="Email sent (simulated)";}
+
+// Populate email select
+function showEmailSimulator(){const sel=document.getElementById("emailSelect");sel.innerHTML="";for(const k in participants){const p=participants[k];const opt=document.createElement("option");opt.value=p.displayName;opt.text=p.displayName;sel.appendChild(opt)}} 
+</script>
 </body>
 </html>
