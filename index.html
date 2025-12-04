@@ -1,157 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vic Falls Camping Holiday</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VicFalls Summer Holiday Camping — Full App</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center center fixed;
-        background-size: cover;
-        color: white;
-        text-align: center;
-    }
-    .overlay {
-        background: rgba(0,0,0,0.45);
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        padding-top: 40px;
-    }
-    .card {
-        background: rgba(0, 0, 0, 0.55);
-        border-radius: 18px;
-        padding: 20px;
-        width: 90%;
-        max-width: 430px;
-        margin: auto;
-        backdrop-filter: blur(5px);
-        box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        animation: fadeIn 1.2s ease-in-out;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    input, select {
-        width: 90%;
-        padding: 12px;
-        border-radius: 10px;
-        border: none;
-        margin-bottom: 12px;
-        font-size: 16px;
-    }
-    button {
-        width: 95%;
-        padding: 12px;
-        background: royalblue;
-        border: none;
-        border-radius: 12px;
-        color: white;
-        font-size: 18px;
-        cursor: pointer;
-    }
-    button:hover { background: dodgerblue; }
-    .hidden { display: none; }
+  :root{
+    --card-bg: rgba(0,80,160,0.35);
+    --accent: #2e9df7;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --warn: #f1c40f;
+    --muted: #95a5a6;
+    --glass: rgba(0,0,0,0.45);
+    --text: #fff;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:#001; color:var(--text);}
+  body{
+    background-image: url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=60');
+    background-size: cover;
+    background-position:center;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  .overlay{
+    background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.55));
+    min-height:100%;
+    padding:32px 12px;
+    box-sizing:border-box;
+  }
+  .container{
+    max-width:980px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: 1fr 380px;
+    gap:20px;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:16px;
+    padding:18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    color:var(--text);
+  }
+  header.card{
+    grid-column: 1 / -1;
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  header h1{margin:0;font-size:20px}
+  .small{font-size:13px; color: #e9f6ffcc}
+  .left-col{min-height:200px}
+  .right-col{position:sticky; top:24px; height:fit-content}
+  input, select, textarea, button {
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:none;
+    box-sizing:border-box;
+    margin-top:8px;
+    font-size:14px;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.7); }
+  .muted{ color: var(--muted); font-size:13px }
+  .btn{ background:var(--accent); color:white; cursor:pointer; }
+  .btn-danger{ background:var(--danger); }
+  .btn-ghost{ background: transparent; border:1px solid rgba(255,255,255,0.08); color:var(--text); }
+  .feedback{ margin-top:8px; color: var(--success); font-weight:700; }
+  .gallery img{ width:48%; margin:1%; border-radius:10px; display:inline-block; cursor:pointer; }
+  .countdown{ font-size:16px; font-weight:700; color: gold; padding:6px 0;}
+  .itinerary li{ margin:6px 0; }
+  table{ width:100%; border-collapse:collapse; font-size:13px; }
+  th,td{ padding:8px 6px; text-align:left; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+  tr.status-accept td{ background: rgba(46,204,113,0.06); }
+  tr.status-deny td{ background: rgba(231,76,60,0.05); }
+  tr.status-unsubmitted td{ background: rgba(200,200,200,0.02); }
+  tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
+  .small-muted{ font-size:12px; color: #dbeeffaa; }
+  .flex{ display:flex; gap:8px; align-items:center; }
+  .center{ text-align:center; }
+  @media (max-width:980px){
+    .container{ grid-template-columns: 1fr; padding-bottom:60px; }
+    header.card{ flex-direction:column; align-items:flex-start; gap:6px; }
+    .right-col{ position:static; top:auto; }
+    .gallery img{ width:48%; }
+  }
 </style>
 </head>
 <body>
 <div class="overlay">
+  <div class="container">
 
-    <!-- LOGIN CARD -->
-    <div id="loginCard" class="card">
-        <h2>Welcome to Vic Falls Camping Holiday</h2>
-        <h3>Family Login</h3>
-        <input type="password" id="familyPassword" placeholder="Enter Family Password (Jakata)" />
-        <button onclick="login()">Login</button>
-        <p id="loginMsg" style="color: yellow;"></p>
-    </div>
+    <!-- Header -->
+    <header class="card">
+      <div style="flex:1;">
+        <h1>VicFalls Summer Holiday Camping</h1>
+        <div class="small">Event dates: <strong>December 19 → 26, 2025</strong></div>
+      </div>
 
-    <!-- PARTICIPANT DASHBOARD -->
-    <div id="participantCard" class="card hidden">
-        <h2>Activities</h2>
-        <ul style="text-align:left;">
-            <li>White water rafting</li>
-            <li>Helicopter tour</li>
-            <li>Chobe National Park Tour</li>
-            <li>Zambezi Sunset Cruise</li>
-            <li>Boma Dinner & Drum Show</li>
+      <div style="width:260px;">
+        <div class="small-muted">Admin login</div>
+        <div style="display:flex;gap:6px">
+          <input id="adminName" placeholder="Admin" value="Admin" />
+          <input id="adminPass" type="password" placeholder="Password" />
+          <button class="btn" onclick="adminLogin()">Login</button>
+        </div>
+        <div class="small muted" style="margin-top:6px">Admin creds: <strong>Admin / AdminPass2025</strong></div>
+      </div>
+    </header>
+
+    <!-- LEFT: Participant / Main -->
+    <section class="card left-col" id="mainCard">
+
+      <!-- Login / Signup -->
+      <div id="guestCard">
+        <h2 style="margin:0">Participant login / Signup</h2>
+        <p class="small">If you already have a name and password, enter it. Or sign up below (your password is your 'firstborn' name or use the suggested password).</p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <input id="fullname" placeholder="Full name (e.g. Godfrey Jakata)" />
+          <input id="pwd" placeholder="Password (e.g. Chikomborero)" type="password" />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn" onclick="participantLogin()">Login</button>
+          <button class="btn btn-ghost" onclick="showSignup()">Signup</button>
+        </div>
+        <p id="loginMsg" class="muted"></p>
+      </div>
+
+      <!-- Signup card (hidden initially) -->
+      <div id="signupCard" style="display:none;margin-top:12px;">
+        <h3>Quick Signup (creates participant entry)</h3>
+        <input id="su_name" placeholder="Full name (how you'd like it shown)" />
+        <input id="su_email" placeholder="Email address" />
+        <input id="su_phone" placeholder="Phone number" />
+        <input id="su_pass" placeholder="Pick a password (easy to remember)" />
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn" onclick="signup()">Create account</button>
+          <button class="btn btn-ghost" onclick="hideSignup()">Cancel</button>
+        </div>
+        <p id="signupMsg" class="muted"></p>
+      </div>
+
+      <!-- Participant Dashboard (after login) -->
+      <div id="participantCard" style="display:none;margin-top:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h2 id="welcomeName" style="margin:0">Welcome!</h2>
+          <div class="small-muted">Local time: <span id="localTime"></span></div>
+        </div>
+
+        <div class="countdown" id="countdown">Loading countdown...</div>
+
+        <h3>Quick profile</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <input id="userEmail" placeholder="Email" />
+          <input id="userPhone" placeholder="Phone" />
+        </div>
+        <div class="muted small">Your contact info is stored in your browser and visible to admin for event coordination.</div>
+        <button class="btn" style="margin-top:8px" onclick="saveProfile()">Save Profile</button>
+        <p id="profileMsg" class="feedback"></p>
+
+        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
+
+        <h3>Activities & RSVP</h3>
+        <ul class="muted">
+          <li>White water rafting — $50</li>
+          <li>Helicopter tour — $150</li>
+          <li>Chobe full day — $190</li>
+          <li>Zambezi Sunset Cruise — $49</li>
+          <li>Boma Dinner & Drum Show — $85</li>
         </ul>
 
-        <h3>RSVP</h3>
-        <select id="rsvpChoice">
-            <option value="Accept">Accept Invite</option>
-            <option value="Cancel">Cancel</option>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+          <select id="rsvpChoice">
+            <option value="Accepted">Accept Invite</option>
+            <option value="Declined">Decline</option>
+          </select>
+          <select id="transportChoice">
+            <option value="Own Transport">Own Transport</option>
+            <option value="Group Transport">Group Transport</option>
+          </select>
+        </div>
+        <select id="accommodationChoice" style="margin-top:8px;">
+          <option value="Own Accommodation">Own Accommodation</option>
+          <option value="Group Accommodation">Group Accommodation</option>
         </select>
 
-        <h3>Email</h3>
-        <input id="emailInput" placeholder="Enter your email" />
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn" onclick="submitRSVP()">Submit RSVP</button>
+          <button class="btn btn-ghost" onclick="logout()">Logout</button>
+        </div>
+        <p id="rsvpMsg" class="feedback"></p>
 
-        <button onclick="saveRSVP()">Submit Response</button>
-        <p id="participantMsg"></p>
+        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
 
-        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
-    </div>
+        <h3>Donor / Payment</h3>
+        <div class="muted small">Donations recorded here are for your tracking only; use EcoCash to actually pay.</div>
+        <input id="donationInfo" placeholder="Enter amount (USD) or message e.g. $50 for rafting" />
+        <button class="btn" onclick="submitDonation()">Submit Donation</button>
+        <p id="donationMsg" class="feedback"></p>
+        <div class="muted small">EcoCash number: <strong>077-252-727</strong></div>
 
-    <!-- ADMIN LOGIN -->
-    <div id="adminCard" class="card hidden">
-        <h2>Admin Dashboard</h2>
-        <p><strong>RSVP Responses:</strong></p>
-        <p id="responseList"></p>
-        <button style="background:crimson;" onclick="logout()">Logout</button>
-    </div>
+        <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
 
-</div>
+        <h3>Gallery</h3>
+        <div class="gallery">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=60" alt="camp1" />
+          <img src="https://images.unsplash.com/photo-1502784444185-4c7a6a5cbd7c?auto=format&w=800&q=60" alt="camp2" />
+        </div>
 
-<script>
-const FAMILY_PASSWORD = "Jakata";
-let rsvpData = JSON.parse(localStorage.getItem('rsvpData') || '{}');
+        <h3 style="margin-top:12px">Itinerary (Dec 19 - 26)</h3>
+        <ul class="itinerary small-muted" id="itineraryList">
+          <!-- populated by JS -->
+        </ul>
+      </div>
+    </section>
 
-function login(){
-    let pass = document.getElementById("familyPassword").value.trim();
+    <!-- RIGHT: Admin & quick info -->
+    <aside class="card right-col" id="adminCard" style="display:block;">
+      <h3>Quick info</h3>
+      <div class="small-muted">Event: Dec 19 → 26, 2025</div>
+      <div style="height:10px"></div>
 
-    if(pass === FAMILY_PASSWORD){
-        document.getElementById("loginCard").classList.add("hidden");
-        document.getElementById("participantCard").classList.remove("hidden");
-    } else if(pass === "SuperSecret2025"){
-        document.getElementById("loginCard").classList.add("hidden");
-        document.getElementById("adminCard").classList.remove("hidden");
-        loadResponses();
-    } else {
-        document.getElementById("loginMsg").innerText = "Incorrect password";
-    }
-}
+      <div style="margin-top:10px;">
+        <h3>Admin Dashboard</h3>
+        <div class="small-muted">After logging in with the admin box in the header you will see the full dashboard below.</div>
 
-function saveRSVP(){
-    let email = document.getElementById("emailInput").value.trim();
-    let choice = document.getElementById("rsvpChoice").value;
+        <!-- Admin panel area (hidden until admin logs in) -->
+        <div id="adminPanel" style="display:none;margin-top:10px;">
+          <div style="display:flex;gap:6px">
+            <button class="btn" onclick="refreshAdminView()">Refresh</button>
+            <button class="btn btn-ghost" onclick="downloadCSV()">Download CSV</button>
+            <button class="btn" onclick="showEmailSimulator()">Email preview</button>
+          </div>
 
-    if(!email){
-        document.getElementById("participantMsg").innerText = "Please enter email.";
-        return;
-    }
+          <div style="margin-top:8px;">
+            <div class="small-muted">Secret (view unlogged): enter code and click Show</div>
+            <input id="secretInput" placeholder="Enter secret (SuperSecret2025)" />
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <button class="btn" onclick="showNotLogged()">Show Unlogged</button>
+              <button class="btn btn-ghost" onclick="clearAllData()">Clear all (reset)</button>
+            </div>
+            <div id="unloggedList" style="margin-top:8px;color:var(--warn);font-weight:700"></div>
+          </div>
 
-    rsvpData[email] = `RSVP: ${choice}`;
-    localStorage.setItem('rsvpData', JSON.stringify(rsvpData));
+          <h4 style="margin-top:12px">Participants Overview</h4>
+          <div style="max-height:260px; overflow:auto;">
+            <table id="adminTable" role="table" aria-label="participants">
+              <thead>
+                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Logged In</th><th>RSVP</th><th>Transport</th><th>Accommodation</th><th>Donations</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
 
-    document.getElementById("participantMsg").innerText = "RSVP saved!";
-}
+          <div style="margin-top:10px;">
+            <h4>Email Simulator</h4>
+            <div class="small-muted">Pick recipients below and click Prepare. To actually send, connect to your backend email endpoint (example POST included in comments).</div>
+            <select id="emailSelect" multiple style="height:80px;margin-top:6px;"></select>
+            <input id="emailSubject" placeholder="Email subject" style="margin-top:6px" />
+            <textarea id="emailBody" placeholder="Email body (use {{name}} for recipient name)" ></textarea>
+            <div style="display:flex;gap:8px;margin-top:6px;">
+              <button class="btn" onclick="prepareEmail()">Prepare (simulate)</button>
+              <button class="btn btn-ghost" onclick="sendEmailSimulation()">Send (simulate)</button>
+            </div>
+            <div id="emailResult" class="small-muted" style="margin-top:8px"></div>
+          </div>
 
-function loadResponses(){
-    let output = "";
-    for(let email in rsvpData){
-        output += `${email}: ${rsvpData[email]}<br>`;
-    }
-    document.getElementById("responseList").innerHTML = output;
-}
+          <!-- Feedback Sender -->
+          <hr style="border:none;margin:12px 0;border-top:1px solid rgba(255,255,255,0.06)">
+          <h4>Send Feedback</h4>
+          <input id="adminFeedbackMessage" placeholder="Enter feedback message here" style="width:100%;margin-bottom:6px;" />
+          <button class="btn" onclick="sendFeedbackEmails(document.getElementById('adminFeedbackMessage').value)">
+            Send Feedback to All Accepted
+          </button>
+        </div>
 
-function logout(){ location.reload(); }
+      </div>
+    </aside>
+
+  </div><!-- /container -->
+</div><!-- /overlay -->
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+  emailjs.init("yOwYpcXjeLqxfopJb"); // Your Public Key
 </script>
 
+<script>
+/* Your original app JS code here ... (participants, login, RSVP, donations, countdown etc.) */
+
+/* ===========================================================
+   Feedback Emails function
+=========================================================== */
+function sendFeedbackEmails(feedbackMessage) {
+  if (!loginData || !participants) return;
+
+  for (const key in participants) {
+    const participant = participants[key];
+    const data = loginData[key];
+
+    if (data && data.RSVP === "Accepted" && data.email) {
+      emailjs.send(
+        "service_n6q8s1o",
+        "template_kobgbcc",
+        {
+          name: participant.displayName,
+          feedbackMessage: feedbackMessage
+        }
+      ).then(
+        (response) => {
+          console.log(`Email sent to ${participant.displayName}:`, response.status, response.text);
+        },
+        (error) => {
+          console.error(`Failed to send email to ${participant.displayName}:`, error);
+        }
+      );
+    }
+  }
+  alert("Feedback emails sent to all accepted participants!");
+}
+
+/* =============================
+   Rest of your JS (login/signup/donation/etc.)
+   Include the code from your previous app here
+============================= */
+</script>
 </body>
 </html>
