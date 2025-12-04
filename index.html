@@ -320,7 +320,36 @@ function logout(){currentUser=null;document.getElementById("guestCard").style.di
 
 function saveProfile(){if(!currentUser)return;participants[currentUser].email=document.getElementById("userEmail").value.trim();participants[currentUser].phone=document.getElementById("userPhone").value.trim();save(STORAGE_KEYS.participants,participants);document.getElementById("profileMsg").innerText="Profile saved!"}
 
-function submitRSVP(){if(!currentUser)return;participants[currentUser].rsvp=document.getElementById("rsvpChoice").value;participants[currentUser].transport=document.getElementById("transportChoice").value;participants[currentUser].accommodation=document.getElementById("accommodationChoice").value;save(STORAGE_KEYS.participants,participants);document.getElementById("rsvpMsg").innerText="RSVP updated!"}
+// ==================== UPDATED RSVP FUNCTION WITH EMAILJS TEMPLATE ====================
+function submitRSVP() {
+  if (!currentUser) return;
+
+  // Update RSVP info
+  const p = participants[currentUser];
+  p.rsvp = document.getElementById("rsvpChoice").value;
+  p.transport = document.getElementById("transportChoice").value;
+  p.accommodation = document.getElementById("accommodationChoice").value;
+  save(STORAGE_KEYS.participants, participants);
+
+  document.getElementById("rsvpMsg").innerText = "RSVP updated!";
+
+  // Send confirmation email via EmailJS using template placeholders
+  emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+    to_name: p.displayName,
+    to_email: p.email,
+    rsvp_status: p.rsvp,
+    transport_choice: p.transport,
+    accommodation_choice: p.accommodation
+    // Add any other template variables you defined in EmailJS
+  })
+  .then(res => {
+    console.log("RSVP email sent via template:", res);
+  })
+  .catch(err => {
+    console.error("RSVP email error:", err);
+  });
+}
+// ================================================================================
 
 function submitDonation(){if(!currentUser)return;const amt=document.getElementById("donationInfo").value.trim();if(!amt){document.getElementById("donationMsg").innerText="Enter amount";return;}donations.push({name:participants[currentUser].displayName,amount:amt,time:nowStr()});save(STORAGE_KEYS.donations,donations);document.getElementById("donationMsg").innerText="Donation recorded!"}
 
