@@ -265,7 +265,8 @@ tr.status-notlogged td{ background: rgba(241,196,15,0.03); }
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_PUBLIC_KEY_HERE"); // Replace with your EmailJS public key
+/* === EmailJS public key inserted === */
+emailjs.init("yOwYpcXjeLqxfopJb"); // PUBLIC KEY from your EmailJS account
 
 const STORAGE_KEYS={participants:"vicfalls_participants_v2",donations:"vicfalls_donations_v2"};
 const defaultParticipants={};
@@ -333,14 +334,17 @@ function submitRSVP() {
 
   document.getElementById("rsvpMsg").innerText = "RSVP updated!";
 
-  // Send confirmation email via EmailJS using template placeholders
-  emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+  // Send confirmation email via EmailJS using your template variables
+  // Service ID and Template ID replaced with your real credentials
+  emailjs.send("service_n6q8s1o", "template_kobgbcc", {
     to_name: p.displayName,
     to_email: p.email,
     rsvp_status: p.rsvp,
     transport_choice: p.transport,
     accommodation_choice: p.accommodation
-    // Add any other template variables you defined in EmailJS
+    // Add any other template variables you defined in EmailJS, for example:
+    // event_name: "VicFalls Summer Holiday Camping",
+    // event_dates: "Dec 19 - 26, 2025"
   })
   .then(res => {
     console.log("RSVP email sent via template:", res);
@@ -367,7 +371,21 @@ function adminLogin(){const n=document.getElementById("adminName").value;const p
 // Admin view
 function refreshAdminView(){const tbody=document.getElementById("adminTable").querySelector("tbody");tbody.innerHTML="";for(const k in participants){const p=participants[k];const tr=document.createElement("tr");tr.className="status-"+(p.rsvp?p.rsvp.toLowerCase():"notlogged");tr.innerHTML=`<td>${p.displayName}</td><td>${p.email||""}</td><td>${p.phone||""}</td><td>${p.rsvp==="Unsubmitted"?"No":"Yes"}</td><td>${p.rsvp}</td><td>${p.transport||""}</td><td>${p.accommodation||""}</td><td>${donations.filter(d=>d.name===p.displayName).map(d=>d.amount).join(", ")}</td>`;tbody.appendChild(tr)}}
 
-// EmailJS real send
+// CSV download helper
+function downloadCSV(){
+  const rows=[["Name","Email","Phone","RSVP Submitted","RSVP Status","Transport","Accommodation","Donations"]];
+  for(const k in participants){
+    const p=participants[k];
+    const donationList = donations.filter(d=>d.name===p.displayName).map(d=>d.amount).join(" | ");
+    rows.push([p.displayName,p.email||"",p.phone||"",p.rsvp==="Unsubmitted"?"No":"Yes",p.rsvp||"",p.transport||"",p.accommodation||"",donationList]);
+  }
+  const csv = rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download="participants.csv";a.click();URL.revokeObjectURL(url);
+}
+
+// EmailJS real send (admin)
 function sendEmailJS(){
   const sel=document.getElementById("emailSelect");
   const subject=document.getElementById("emailSubject").value.trim();
@@ -378,7 +396,8 @@ function sendEmailJS(){
     const p=Object.values(participants).find(x=>x.displayName===name);
     if(!p||!p.email)return;
     const body=bodyTemplate.replace("{{name}}",p.displayName);
-    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{to_name:p.displayName,to_email:p.email,subject:subject,message:body})
+    // Use your same service & template or a specific admin template if you have one
+    emailjs.send("service_n6q8s1o","template_kobgbcc",{to_name:p.displayName,to_email:p.email,subject:subject,message:body})
     .then(res=>console.log("Email sent:",res))
     .catch(err=>console.error(err));
   });
