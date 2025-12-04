@@ -1,127 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Donation Event App</title>
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vic Falls Camping Holiday</title>
+<style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center/cover;
-      backdrop-filter: blur(8px);
-      color: white;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        text-align: center;
     }
-    .container {
-      max-width: 420px;
-      margin: 50px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 20px;
+    .overlay {
+        background: rgba(0,0,0,0.45);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 40px;
     }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
+    .card {
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 18px;
+        padding: 20px;
+        width: 90%;
+        max-width: 430px;
+        margin: auto;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        animation: fadeIn 1.2s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    input, select {
+        width: 90%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 12px;
+        font-size: 16px;
     }
     button {
-      background: #4CAF50;
-      color: white;
-      cursor: pointer;
+        width: 95%;
+        padding: 12px;
+        background: royalblue;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
     }
-    button:hover {
-      background: #45a049;
-    }
+    button:hover { background: dodgerblue; }
     .hidden { display: none; }
-  </style>
+</style>
 </head>
 <body>
+<div class="overlay">
 
-<div class="container" id="loginScreen">
-  <h2>Family Login</h2>
-  <p>Enter family password:</p>
-  <input id="familyPassword" type="password" placeholder="Jakata" />
-  <button onclick="validateFamilyPassword()">Continue</button>
-  <p id="loginError" style="color: red;"></p>
-</div>
+    <!-- LOGIN CARD -->
+    <div id="loginCard" class="card">
+        <h2>Welcome to Vic Falls Camping Holiday</h2>
+        <h3>Family Login</h3>
+        <input type="password" id="familyPassword" placeholder="Enter Family Password (Jakata)" />
+        <button onclick="login()">Login</button>
+        <p id="loginMsg" style="color: yellow;"></p>
+    </div>
 
-<div class="container hidden" id="formScreen">
-  <h2>Participant Form</h2>
+    <!-- PARTICIPANT DASHBOARD -->
+    <div id="participantCard" class="card hidden">
+        <h2>Activities</h2>
+        <ul style="text-align:left;">
+            <li>White water rafting</li>
+            <li>Helicopter tour</li>
+            <li>Chobe National Park Tour</li>
+            <li>Zambezi Sunset Cruise</li>
+            <li>Boma Dinner & Drum Show</li>
+        </ul>
 
-  <input id="participantName" placeholder="Your name" />
-  <input id="fatherName" placeholder="Father's name" />
-  <input id="email" placeholder="Email" />
-  <input id="phone" placeholder="Phone" />
+        <h3>RSVP</h3>
+        <select id="rsvpChoice">
+            <option value="Accept">Accept Invite</option>
+            <option value="Cancel">Cancel</option>
+        </select>
 
-  <select id="decision">
-    <option value="Accepted">Accept</option>
-    <option value="Denied">Deny</option>
-  </select>
+        <h3>Email</h3>
+        <input id="emailInput" placeholder="Enter your email" />
 
-  <button onclick="submitForm()">Submit</button>
-  <p id="submitMessage" style="color: lightgreen;"></p>
-</div>
+        <button onclick="saveRSVP()">Submit Response</button>
+        <p id="participantMsg"></p>
 
-<div class="container hidden" id="adminLogin">
-  <h2>Admin Login</h2>
-  <input id="adminPassword" type="password" placeholder="Enter admin password" />
-  <button onclick="adminAccess()">Login</button>
-  <p id="adminError" style="color:red;"></p>
-</div>
+        <button style="margin-top:20px;background:crimson;" onclick="logout()">Logout</button>
+    </div>
 
-<div class="container hidden" id="adminPanel">
-  <h2>Admin Dashboard</h2>
-  <button onclick="showData()">Show All Participants</button>
-  <pre id="allData" style="white-space: pre-wrap; background: rgba(255,255,255,0.1); padding: 10px;"></pre>
+    <!-- ADMIN LOGIN -->
+    <div id="adminCard" class="card hidden">
+        <h2>Admin Dashboard</h2>
+        <p><strong>RSVP Responses:</strong></p>
+        <p id="responseList"></p>
+        <button style="background:crimson;" onclick="logout()">Logout</button>
+    </div>
+
 </div>
 
 <script>
-  function validateFamilyPassword() {
-    let pwd = document.getElementById('familyPassword').value.trim();
+const FAMILY_PASSWORD = "Jakata";
+let rsvpData = JSON.parse(localStorage.getItem('rsvpData') || '{}');
 
-    if (pwd === 'Jakata') {
-      localStorage.setItem('familyLogin', pwd);
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('formScreen').classList.remove('hidden');
+function login(){
+    let pass = document.getElementById("familyPassword").value.trim();
+
+    if(pass === FAMILY_PASSWORD){
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("participantCard").classList.remove("hidden");
+    } else if(pass === "SuperSecret2025"){
+        document.getElementById("loginCard").classList.add("hidden");
+        document.getElementById("adminCard").classList.remove("hidden");
+        loadResponses();
     } else {
-      document.getElementById('loginError').innerText = 'Incorrect family password';
+        document.getElementById("loginMsg").innerText = "Incorrect password";
     }
-  }
+}
 
-  function submitForm() {
-    let entry = {
-      name: document.getElementById('participantName').value,
-      father: document.getElementById('fatherName').value,
-      email: document.getElementById('email').value,
-      phone: document.getElementById('phone').value,
-      decision: document.getElementById('decision').value,
-      timestamp: new Date().toLocaleString()
-    };
+function saveRSVP(){
+    let email = document.getElementById("emailInput").value.trim();
+    let choice = document.getElementById("rsvpChoice").value;
 
-    let data = JSON.parse(localStorage.getItem('participants') || '[]');
-    data.push(entry);
-    localStorage.setItem('participants', JSON.stringify(data));
-
-    document.getElementById('submitMessage').innerText = 'Submitted successfully!';
-  }
-
-  function adminAccess() {
-    let pwd = document.getElementById('adminPassword').value;
-    if (pwd === 'SuperSecret2025') {
-      document.getElementById('adminLogin').classList.add('hidden');
-      document.getElementById('adminPanel').classList.remove('hidden');
-    } else {
-      document.getElementById('adminError').innerText = 'Wrong admin password';
+    if(!email){
+        document.getElementById("participantMsg").innerText = "Please enter email.";
+        return;
     }
-  }
 
-  function showData() {
-    let data = JSON.parse(localStorage.getItem('participants') || '[]');
-    document.getElementById('allData').innerText = JSON.stringify(data, null, 2);
-  }
+    rsvpData[email] = `RSVP: ${choice}`;
+    localStorage.setItem('rsvpData', JSON.stringify(rsvpData));
+
+    document.getElementById("participantMsg").innerText = "RSVP saved!";
+}
+
+function loadResponses(){
+    let output = "";
+    for(let email in rsvpData){
+        output += `${email}: ${rsvpData[email]}<br>`;
+    }
+    document.getElementById("responseList").innerHTML = output;
+}
+
+function logout(){ location.reload(); }
 </script>
 
 </body>
